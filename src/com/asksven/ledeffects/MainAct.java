@@ -84,7 +84,7 @@ public class MainAct extends Activity
 		else
 		{
 			Intent i = new Intent();
-			i.setClassName( "com.asksven.ledeffects", "com.asksven.ledeffects.Control" );
+			i.setClassName( "com.asksven.ledeffects", "com.asksven.ledeffects.EffectsService" );
 			startService( i );
 			Log.i(getClass().getSimpleName(), "startService()");
 			m_bIsStarted = true;
@@ -96,7 +96,7 @@ public class MainAct extends Activity
 		if( m_bIsStarted )
 		{
 			Intent i = new Intent();
-			i.setClassName( "com.asksven.ledeffects", "com.asksven.ledeffects.Control" );
+			i.setClassName( "com.asksven.ledeffects", "com.asksven.ledeffects.EffectsService" );
 			stopService( i );
 			Log.i(getClass().getSimpleName(), "stopService()");
 			m_bIsStarted = false;
