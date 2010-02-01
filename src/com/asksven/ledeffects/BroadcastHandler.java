@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.asksven.ledeffects.data.EffectsState;
 import com.asksven.ledeffects.data.Preferences;
 
 /**
@@ -28,6 +29,8 @@ public class BroadcastHandler extends BroadcastReceiver
 	{
 		Preferences myPrefs = new Preferences(context);
         boolean bAutostart = myPrefs.getAutostart();
+        EffectsState myState = EffectsState.getInstance();
+        
 
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
 		{
@@ -39,12 +42,14 @@ public class BroadcastHandler extends BroadcastReceiver
 			}
 		}
 
+		// Event for SMS
 		// Incoming SMS
 		if (intent.getAction().equals(ACTION_SMS))
 		{
-			EffectManager.doEffect(EffectManager.EFFECT_ROTATE);
+			myState.setNotifySMS(true);
 		}
 
+		// Events for call
 		// Incoming Call 
 		if (intent.getAction().equals(ACTION_CALL))
 		{
@@ -53,30 +58,32 @@ public class BroadcastHandler extends BroadcastReceiver
 			// hung up
 			if (phoneState.equals(android.telephony.TelephonyManager.EXTRA_STATE_IDLE))
 			{
-				EffectManager.doEffect(EffectManager.EFFECT_NONE);
+				myState.setStateRinging(false);
 			}
 			
 			else if (phoneState.equals(android.telephony.TelephonyManager.EXTRA_STATE_RINGING))
 			{
-				EffectManager.doEffect(EffectManager.EFFECT_RING);
+				myState.setStateRinging(true);
 			}
 			else if (phoneState.equals(android.telephony.TelephonyManager.EXTRA_STATE_OFFHOOK))
 			{
-				EffectManager.doEffect(EffectManager.EFFECT_NONE);
+				myState.setStateRinging(false);
 			}
 			
 		}
 
-			
+		// Events for power state	
 		if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED))
 		{
-           	EffectManager.doEffect(EffectManager.EFFECT_BREATHE);
+			myState.setStateCharging(true);
 		}
 		
 		if (intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED))
 		{
-           	EffectManager.doEffect(EffectManager.EFFECT_NONE);
+			myState.setStateCharging(false);
 		}
-		
+
+		// Apply the effect for current state
+		EffectManager.doEffect(myPrefs.getEffectForState(myState.getState()));
 	}
 }

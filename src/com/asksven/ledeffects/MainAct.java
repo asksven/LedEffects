@@ -14,7 +14,6 @@ import android.widget.Toast;
 public class MainAct extends Activity
 {
     private boolean m_bIsStarted;
-	private boolean registered = false;
     
     static final int DIALOG_PREFERENCES_ID 	= 0;
 
@@ -23,11 +22,6 @@ public class MainAct extends Activity
         super.onCreate(savedInstanceState);
 		// tried to fix bug http://code.google.com/p/android/issues/detail?id=3259
 		// by programmatically registering to the event
-        if (!registered)
-        {
-            registerReceiver(new BroadcastHandler(), new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-            registered = true;
-        }
 
         // Set UI stuff
         setContentView(R.layout.main); //local_service_binding);
@@ -36,7 +30,26 @@ public class MainAct extends Activity
         // run the underlying service
         startService();
     }
+    @Override
+    protected void onPause()
+    {
+    	super.onPause();
+    }
     
+    @Override
+    public void onStop()
+    {
+    	super.onStop();
+                
+    }
+    
+    @Override
+    protected void onResume()
+    {	
+    	super.onResume();
+                
+    }
+        
     // Called only the first time the options menu is displayed.
     // Create the menu entries.
     // Menu adds items in the order shown.

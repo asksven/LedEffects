@@ -8,11 +8,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.asksven.ledeffects.data.EffectsState;
 import com.asksven.ledeffects.data.Preferences;
 
 public class EffectsService extends Service
@@ -22,6 +24,8 @@ public class EffectsService extends Service
 	
 	/** the timer update freq. in ms */
 	private long m_lUpdateInterval = 30*1000;
+	
+	private boolean m_bRegistered = false;
 	
 	
     /**
@@ -47,6 +51,15 @@ public class EffectsService extends Service
         
         // start the timer
         startTimer();
+
+        // tried to fix bug http://code.google.com/p/android/issues/detail?id=3259
+		// by programmatically registering to the event
+        if (!m_bRegistered)
+        {
+            registerReceiver(new BatteryBroadcastHandler(), new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            m_bRegistered = true;
+        }
+        
     }
 
     
@@ -86,8 +99,17 @@ public class EffectsService extends Service
     /**
      * Check for location changes at each timer occurrence
      */
-    private void updateSituation()
+    private void updateEffects()
     {
+		// Apply the effect for current state
+    	Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
+    	String strEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
+		EffectManager.doEffect(strEffect);
+		if (!strEffect.equals(EffectManager.EFFECT_NONE))
+		{
+			this.notify("Applying effect " + strEffect);
+		}
+		
     }
 
     /**
@@ -119,7 +141,7 @@ public class EffectsService extends Service
     	PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MainAct.class), 0);
     	notification.setLatestEventInfo(this, getText(R.string.local_service_label), strNote, contentIntent);
-    	mNM.notify(R.string.local_service_started, notification);
+    	mNM.notify(R.string.local_service_updated, notification);
     }
     
     /**
@@ -136,7 +158,7 @@ public class EffectsService extends Service
 			        public void run()
 			        {
 			        	
-			        	updateSituation();
+			        	updateEffects();
 			        }
 			     }, 0, m_lUpdateInterval);
 			  Log.i(getClass().getSimpleName(), "Timer started!!! (timeout=" + m_lUpdateInterval + " ms)");

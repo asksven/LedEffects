@@ -1,5 +1,7 @@
 package com.asksven.ledeffects.data;
 
+import com.asksven.ledeffects.EffectManager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -88,8 +90,30 @@ public class Preferences
 		m_iPollInterval = pollInterval;
 	}
 
-	
-	
-	
-		
+	public String getEffectForState(int iState)
+	{
+		switch (iState)
+		{
+			case EffectsState.STATE_NONE :
+				return EffectManager.EFFECT_NONE;
+
+			case EffectsState.STATE_CHARGING :
+				return EffectManager.EFFECT_BREATHE;
+
+			case EffectsState.STATE_RINGING :
+				return EffectManager.EFFECT_RING;
+
+			case EffectsState.NOTIFY_SMS :
+				return EffectManager.EFFECT_ROTATE;
+
+			case EffectsState.NOTIFY_IM :
+				return EffectManager.EFFECT_FADE;
+
+			case EffectsState.NOTIFY_MAIL :
+				return EffectManager.EFFECT_VERTICAL;
+
+			default :
+				return EffectManager.EFFECT_NONE;		
+		}
+	}
 }

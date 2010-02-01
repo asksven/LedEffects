@@ -13,7 +13,7 @@ public class EffectManager
 	public static final String EFFECT_VERTICAL	= "6";
 	
 	private static final String FILE_EFFECTS 	= "/dbgfs/micropklt_dbg/effects";
-
+	
 	/** Apply the effect by echoing to FILE_EFFECTS */
 	public static void doEffect(String strEffect)
 	{
