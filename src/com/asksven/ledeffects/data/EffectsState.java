@@ -1,5 +1,7 @@
 package com.asksven.ledeffects.data;
 
+import android.util.Log;
+
 public class EffectsState
 {
 	private boolean bStateRinging;
@@ -123,6 +125,7 @@ public class EffectsState
 	public void setStateRinging(boolean bStateRinging)
 	{
 		this.bStateRinging = bStateRinging;
+		Log.d(getClass().getSimpleName(), "Set Ringing state to " + bStateRinging);
 	}
 
 	/**
@@ -132,6 +135,7 @@ public class EffectsState
 	public void setStateCharging(boolean bStateCharging)
 	{
 		this.bStateCharging = bStateCharging;
+		Log.d(getClass().getSimpleName(), "Set Charging state to " + bStateCharging);
 	}
 
 	/**
@@ -141,6 +145,7 @@ public class EffectsState
 	public void setNotifySMS(boolean bNotifySMS)
 	{
 		this.bNotifySMS = bNotifySMS;
+		Log.d(getClass().getSimpleName(), "Set SMS notifications to " + bNotifySMS);
 	}
 
 	/**
@@ -150,6 +155,7 @@ public class EffectsState
 	public void setNotifyIM(boolean bNotifyIM)
 	{
 		this.bNotifyIM = bNotifyIM;
+		Log.d(getClass().getSimpleName(), "Set IM notifications to " + bNotifyIM);
 	}
 
 	/**
@@ -159,5 +165,15 @@ public class EffectsState
 	public void setNotifyMail(boolean bNotifyMail)
 	{
 		this.bNotifyMail = bNotifyMail;
+		Log.d(getClass().getSimpleName(), "Set Mail notifications to " + bNotifyMail);
+	}
+	
+	
+	public void setNotifyReadAll()
+	{
+		setNotifyIM(false);
+		setNotifySMS(false);
+		setNotifyMail(false);
+		Log.d(getClass().getSimpleName(), "Disabling all notifications");
 	}
 }
