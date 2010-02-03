@@ -45,7 +45,7 @@ public class PreferencesAct extends Activity
         Button btnTest1 = (Button) findViewById(R.id.ButtonOff);
         btnTest1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
- 	           EffectManager.doEffect(EffectManager.EFFECT_NONE);
+ 	           EffectManager.doEffect(PreferencesAct.this, EffectManager.EFFECT_NONE);
             }
          });
 
@@ -53,7 +53,7 @@ public class PreferencesAct extends Activity
         Button btnTest2 = (Button) findViewById(R.id.Button1);
         btnTest2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
- 	           EffectManager.doEffect(EffectManager.EFFECT_BREATHE);
+ 	           EffectManager.doEffect(PreferencesAct.this, EffectManager.EFFECT_BREATHE);
             }
          });
         
