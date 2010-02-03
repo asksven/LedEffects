@@ -6,6 +6,7 @@ package com.asksven.ledeffects;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.BatteryManager;
 import android.util.Log;
 
 import com.asksven.ledeffects.data.EffectsState;
@@ -71,19 +72,8 @@ public class BroadcastHandler extends BroadcastReceiver
 			}
 			
 		}
-
-		// Events for power state	
-		if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED))
-		{
-			myState.setStateCharging(true);
-		}
 		
-		if (intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED))
-		{
-			myState.setStateCharging(false);
-		}
-
 		// Apply the effect for current state
-		EffectManager.doEffect(myPrefs.getEffectForState(myState.getState()));
+		EffectManager.doEffect(context, myPrefs.getEffectForState(myState.getState()));
 	}
 }
