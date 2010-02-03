@@ -25,6 +25,7 @@ public class EffectsService extends Service
 	/** the timer update freq. in ms */
 	private long m_lUpdateInterval = 30*1000;
 	
+	private BatteryBroadcastHandler m_oBatHandler = null;
 	private boolean m_bRegistered = false;
 	
 	
@@ -47,7 +48,7 @@ public class EffectsService extends Service
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         Log.i(getClass().getSimpleName(), "onCreate called");
         // Display a notification about us starting.  We put an icon in the status bar.
-        showNotification();
+//        showNotification();
         
         // start the timer
         startTimer();
@@ -56,7 +57,8 @@ public class EffectsService extends Service
 		// by programmatically registering to the event
         if (!m_bRegistered)
         {
-            registerReceiver(new BatteryBroadcastHandler(), new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        	m_oBatHandler = new BatteryBroadcastHandler();
+            registerReceiver(m_oBatHandler, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             m_bRegistered = true;
         }
         
@@ -79,8 +81,10 @@ public class EffectsService extends Service
     public void onDestroy()
     {
         // Cancel the persistent notification.
-        mNM.cancel(R.string.local_service_started);
-
+        mNM.cancel(R.string.app_name);
+        
+        // unregister the broadcastreceiver
+        unregisterReceiver(m_oBatHandler);
         // Tell the user we stopped.
         Toast.makeText(this, R.string.local_service_stopped, Toast.LENGTH_SHORT).show();
         stopTimer();
@@ -104,8 +108,8 @@ public class EffectsService extends Service
 		// Apply the effect for current state
     	Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
     	String strEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
-		EffectManager.doEffect(strEffect);
-		if (!strEffect.equals(EffectManager.EFFECT_NONE))
+		boolean bChanged = EffectManager.doEffect(this.getApplicationContext(), strEffect);
+		if ((bChanged) && (!strEffect.equals(EffectManager.EFFECT_NONE)))
 		{
 			this.notify("Applying effect " + strEffect);
 		}
@@ -132,7 +136,7 @@ public class EffectsService extends Service
 
         // Send the notification.
         // We use a layout id because it is a unique number.  We use it later to cancel.
-        mNM.notify(R.string.local_service_started, notification);
+        mNM.notify(R.string.app_name, notification);
     }
     
     private void notify(String strNote)
@@ -141,7 +145,7 @@ public class EffectsService extends Service
     	PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MainAct.class), 0);
     	notification.setLatestEventInfo(this, getText(R.string.local_service_label), strNote, contentIntent);
-    	mNM.notify(R.string.local_service_updated, notification);
+    	mNM.notify(R.string.app_name, notification);
     }
     
     /**
