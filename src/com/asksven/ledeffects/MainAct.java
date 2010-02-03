@@ -1,6 +1,10 @@
 package com.asksven.ledeffects;
 
+import com.asksven.ledeffects.data.EffectsState;
+import com.asksven.ledeffects.data.Preferences;
+
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -20,9 +24,10 @@ public class MainAct extends Activity
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		// tried to fix bug http://code.google.com/p/android/issues/detail?id=3259
-		// by programmatically registering to the event
-
+        
+     // cancel any notification that we started by us
+//        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//        nm.cancel(R.string.app_name);
         // Set UI stuff
         setContentView(R.layout.main); //local_service_binding);
 
@@ -45,7 +50,15 @@ public class MainAct extends Activity
     
     @Override
     protected void onResume()
-    {	
+    {
+    	
+        // cancel any notification that we started by us
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(R.string.app_name);
+        EffectsState.getInstance().setNotifyReadAll();
+        Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
+        String strEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
+        EffectManager.doEffect(this.getApplicationContext(), strEffect);
     	super.onResume();
                 
     }
