@@ -1,6 +1,7 @@
 package com.asksven.ledeffects.data;
 
-import com.asksven.ledeffects.EffectManager;
+import com.asksven.ledeffects.manager.EffectManager;
+import com.asksven.ledeffects.manager.EffectsState;
 
 import android.app.Activity;
 import android.content.Context;
