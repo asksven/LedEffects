@@ -9,8 +9,9 @@ import android.content.Intent;
 import android.os.BatteryManager;
 import android.util.Log;
 
-import com.asksven.ledeffects.data.EffectsState;
 import com.asksven.ledeffects.data.Preferences;
+import com.asksven.ledeffects.manager.EffectManager;
+import com.asksven.ledeffects.manager.EffectsState;
 
 /**
  * @author sven

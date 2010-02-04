@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.asksven.ledeffects.data.Preferences;
+import com.asksven.ledeffects.manager.EffectManager;
 
 // see example http://bestsiteinthemultiverse.com/2009/02/android-dialog-screen-example/
 public class PreferencesAct extends Activity 

@@ -14,8 +14,9 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.asksven.ledeffects.data.EffectsState;
 import com.asksven.ledeffects.data.Preferences;
+import com.asksven.ledeffects.manager.EffectManager;
+import com.asksven.ledeffects.manager.EffectsState;
 
 public class EffectsService extends Service
 {
