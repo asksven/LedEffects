@@ -14,13 +14,19 @@ import com.asksven.ledeffects.R;
 import com.asksven.ledeffects.data.Effect;
 import com.asksven.ledeffects.data.Preferences;
 
-/** Fassade to all effects related processing */
+/**
+ * Fassade to all effect-related processing
+ * EffectFassade is implemented as Singleton
+ * @author sven
+ *
+ */
 public class EffectsFassade
 {
 
+	/** the singleton instance */
 	private static EffectsFassade m_oFassade = null;
 
-	
+	/** returns the singleton's instance */
 	public static EffectsFassade getInstance()
 	{
 		if (m_oFassade == null)
@@ -30,7 +36,8 @@ public class EffectsFassade
 		
 		return m_oFassade;
 	}
-	
+
+	/** apply the effect following the current state */
 	public void doEffect(Context ctx)
 	{
 		EffectsState myState = EffectsState.getInstance();
@@ -39,8 +46,11 @@ public class EffectsFassade
 		boolean bChanged = EffectManager.doEffect(oEffect.getEffect());
 		if ((bChanged) && (oEffect.getEffect() != 0))
 		{
-			this.notify(ctx, "Applying effect " + oEffect.getEffect());
-			
+			// show text in status bar if this is set
+			if (oEffect.getNotify())
+			{
+				this.notify(ctx, oEffect.getText());
+			}
 			// if it's a notification we must add a timer to stop it
 			if (oEffect.getTimed())
 			{
@@ -61,6 +71,7 @@ public class EffectsFassade
 		
 	}
 
+	/** plays an effect for a limitied time */
 	public void playEffect(Context ctx, int iEffect, int iDuration)
 	{
 		EffectManager.doEffect(iEffect);
@@ -79,12 +90,14 @@ public class EffectsFassade
 			     }, 5*1000);
 	}
 	
+	/** persists a given effect to be applied when phone goes to sleep */
 	public void writeSleepEffect(int iEffect)
 	{
 		EffectManager.writeSleepEffect(iEffect);
 		
 	}
 	
+	/** notifications are limitied in time and can be cleared. Upon clearing them a permanent effect may be reapplied (like e.g. charging) */ 
 	public void clearAllNotifications(Context ctx)
 	{
         Preferences myPrefs = new Preferences(ctx.getSharedPreferences(Preferences.PREFS_NAME, 0));
@@ -93,11 +106,14 @@ public class EffectsFassade
         EffectManager.doEffect(oEffect.getEffect());
 
 	}
+	
+	/** the cctor is private as EffectFassade is a singleton */
 	private EffectsFassade()
 	{
 		
 	}
 	
+	/** writes a notification to the status bar */
 	private void notify(Context ctx, String strNote)
     {
 	    NotificationManager	mNM = (NotificationManager)ctx.getSystemService(ctx.NOTIFICATION_SERVICE);	
@@ -108,21 +124,25 @@ public class EffectsFassade
     	mNM.notify(R.string.app_name, notification);
     }
 	    
+	/** applies the charging state */
 	public void setStateCharging(boolean bState)
 	{
 		EffectsState.getInstance().setStateCharging(bState);
 	}
 	
+	/** applies the incoming call state */
 	public void setStateRinging(boolean bState)
 	{
 		EffectsState.getInstance().setStateRinging(bState);
 	}
 
+	/** applies the incoming SMS state */
 	public void setNotifySMS(boolean bState)
 	{
 		EffectsState.getInstance().setNotifySMS(bState);
 	}
 
+	/** applies the incoming mail state */
 	public void setNotifyMail(boolean bState)
 	{
 		EffectsState.getInstance().setNotifyMail(bState);

@@ -2,6 +2,15 @@ package com.asksven.ledeffects.manager;
 
 import android.util.Log;
 
+/**
+ * State machine for all events/effects, also manages the priority (notification over state) and 
+ * by doing so reapplies lower prio effects when higher prio effects are removed.
+ * 
+ * E.g.: when charging and an SMS arrives the SMS-incoming effect is applied.
+ * When the notification for SMS ends the effect for charging is applied back
+ * @author sven
+ *
+ */
 public class EffectsState
 {
 	private boolean bStateRinging;
@@ -169,7 +178,9 @@ public class EffectsState
 		Log.d(getClass().getSimpleName(), "Set Mail notifications to " + bNotifyMail);
 	}
 	
-	
+	/**
+	 * Resets all notifications
+	 */
 	protected void setNotifyReadAll()
 	{
 		setNotifyIM(false);

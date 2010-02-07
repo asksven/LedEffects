@@ -263,28 +263,28 @@ public class Preferences
 		switch (iState)
 		{
 			case EffectsState.STATE_NONE :
-				return new Effect(0, false);
+				return new Effect(0, false, "", false);
 
 			case EffectsState.STATE_CHARGING :
-				return new Effect(m_iEffectCharge, false);
+				return new Effect(m_iEffectCharge, false, "Charging battery", getNotifyCharge());
 
 			case EffectsState.STATE_RINGING :
-				return new Effect(m_iEffectRing, false);
+				return new Effect(m_iEffectRing, false, "Incoming call", getNotifyRing());
 
 			case EffectsState.NOTIFY_SMS :
-				return new Effect(m_iEffectSMS, true);
+				return new Effect(m_iEffectSMS, true, "Incoming SMS", getNotifySMS());
 
 			case EffectsState.NOTIFY_IM :
-				return new Effect(m_iEffectIM, true);
+				return new Effect(m_iEffectIM, true, "Incoming IM", getNotifyIM());
 
 			case EffectsState.NOTIFY_MAIL :
-				return new Effect(m_iEffectMail, true);
+				return new Effect(m_iEffectMail, true, "Incoming mail", getNotifyMail());
 				
 			case EffectsState.STATE_SLEEPING :
-				return new Effect(m_iEffectSleep, false);
+				return new Effect(m_iEffectSleep, false, "Sleeping", false);
 
 			default :
-				return new Effect(0, false);		
+				return new Effect(0, false, "", false);		
 		}
 	}
 }

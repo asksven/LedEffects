@@ -28,7 +28,7 @@ public class EffectManager
 	private static int m_iCurrentState		= 0;
 	
 	private static final String FILE_EFFECTS 	= "/dbgfs/micropklt_dbg/effects";
-	private static final String FILE_SLEEP_EFFECTS 	= "/dbgfs/micropklt_dbg/sleep_leds";
+	private static final String FILE_SLEEP_EFFECTS 	= "/dbgfs/micropklt_dbg/sleep_effects";
 	
 	/** Apply the effect by echoing to FILE_EFFECTS */
 	protected static boolean doEffect(int iEffect)
