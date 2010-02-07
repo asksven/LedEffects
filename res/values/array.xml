@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="effects">
+        <item>None</item>
+        <item>Ring</item>
+        <item>Blink</item>
+        <item>Breathe</item>
+        <item>Fade</item>
+        <item>Rotate</item>
+        <item>Vertical</item>
+    </string-array>
+</resources>
