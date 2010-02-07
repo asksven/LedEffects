@@ -10,7 +10,7 @@
 </LinearLayout>
 
 <LinearLayout android:id="@+id/LinearLayout05" android:layout_width="fill_parent" android:layout_height="wrap_content">
-	<CheckBox android:text="Autostart" android:id="@+id/CheckBoxAutostart" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+	<CheckBox android:text="Autostart Service" android:id="@+id/CheckBoxAutostart" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
 </LinearLayout>
 
 <LinearLayout android:id="@+id/LinearLayout02" android:layout_width="fill_parent" android:layout_height="wrap_content">
@@ -18,19 +18,66 @@
 	
 
 </LinearLayout>
-
+<!-- 
 <LinearLayout android:id="@+id/LinearLayout03" android:layout_width="fill_parent" android:layout_height="wrap_content">
 	<TextView android:text="Timeout (s)" android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-	<EditText android:text="" android:id="@+id/EditTextTimeout" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+	<EditText android:text="" android:id="@+id/EditTextTimeout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></EditText>
+</LinearLayout>
+ -->
+<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+
 </LinearLayout>
 
-<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="fill_parent" android:layout_height="wrap_content">
-<Button android:text="Off" android:id="@+id/ButtonOff" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-<Button android:text="Effect 1" android:id="@+id/Button1" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+
+<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center_horizontal">
+<Button android:text="OK" android:id="@+id/ButtonOK" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
+<Button android:text="Cancel" android:id="@+id/ButtonCancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
 </LinearLayout>
 
-<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="fill_parent" android:layout_height="wrap_content">
-<Button android:text="OK" android:id="@+id/ButtonOK" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-<Button android:text="Cancel" android:id="@+id/ButtonCancel" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-</LinearLayout>
+<ScrollView android:id="@+id/ScrollView01" android:layout_width="fill_parent" android:layout_height="wrap_content">
+<LinearLayout android:id="@+id/LinearLayout06" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical">
+	<TextView android:text="Ringing" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<LinearLayout android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+		<Spinner android:id="@+id/SpinnerRing" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="180px"></Spinner>
+		<CheckBox android:text="Notify" android:id="@+id/CheckBoxNotifyRing" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+		<Button android:text="Test" android:id="@+id/ButtonTestRing" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
+	</LinearLayout>
+	<TextView android:text="Charging" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<LinearLayout android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+		<Spinner android:id="@+id/SpinnerCharge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="180px"></Spinner>
+		<CheckBox android:text="Notify" android:id="@+id/CheckBoxNotifyCharge" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+		<Button android:text="Test" android:id="@+id/ButtonTestCharge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
+	</LinearLayout>
+	<TextView android:text="SMS" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<LinearLayout android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+		<Spinner android:id="@+id/SpinnerSMS" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="180px"></Spinner>
+		<CheckBox android:text="Notify" android:id="@+id/CheckBoxNotifySMS" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+		<Button android:text="Test" android:id="@+id/ButtonTestSMS" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
+	</LinearLayout>
+
+	<TextView android:text="Mail" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<LinearLayout android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+		<Spinner android:id="@+id/SpinnerMail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="180px"></Spinner>
+		<CheckBox android:text="Notify" android:id="@+id/CheckBoxNotifyMail" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+		<Button android:text="Test" android:id="@+id/ButtonTestMail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
+	</LinearLayout>
+<!-- 	
+	<TextView android:text="IM" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<LinearLayout android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+		<Spinner android:id="@+id/SpinnerIM" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="180px"></Spinner>
+		<CheckBox android:text="Notify" android:id="@+id/CheckBoxNotifyIM" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+		<Button android:text="Test" android:id="@+id/ButtonTestIM" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
+	</LinearLayout>
+ -->
+	<TextView android:text="Sleep" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<LinearLayout android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+		<Spinner android:id="@+id/SpinnerSleep" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="180px"></Spinner>
+		<CheckBox android:text="Apply" android:id="@+id/CheckBoxApplySleep" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+		<Button android:text="Test" android:id="@+id/ButtonTestSleep" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
+	</LinearLayout>
+
+</LinearLayout>	
+</ScrollView>
+
 </LinearLayout>
