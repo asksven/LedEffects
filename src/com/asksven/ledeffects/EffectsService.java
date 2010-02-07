@@ -15,8 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.asksven.ledeffects.data.Preferences;
-import com.asksven.ledeffects.manager.EffectManager;
-import com.asksven.ledeffects.manager.EffectsState;
+import com.asksven.ledeffects.manager.EffectsFassade;
 
 public class EffectsService extends Service
 {
@@ -52,7 +51,7 @@ public class EffectsService extends Service
 //        showNotification();
         
         // start the timer
-        startTimer();
+//        startTimer();
 
         // tried to fix bug http://code.google.com/p/android/issues/detail?id=3259
 		// by programmatically registering to the event
@@ -107,13 +106,14 @@ public class EffectsService extends Service
     private void updateEffects()
     {
 		// Apply the effect for current state
-    	Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
-    	String strEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
-		boolean bChanged = EffectManager.doEffect(this.getApplicationContext(), strEffect);
-		if ((bChanged) && (!strEffect.equals(EffectManager.EFFECT_NONE)))
-		{
-			this.notify("Applying effect " + strEffect);
-		}
+//    	Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
+//    	String strEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
+//		boolean bChanged = EffectManager.doEffect(this.getApplicationContext(), strEffect);
+//		if ((bChanged) && (!strEffect.equals(EffectManager.EFFECT_NONE)))
+//		{
+//			this.notify("Applying effect " + strEffect);
+//		}
+    	EffectsFassade.getInstance().doEffect(this);
 		
     }
 
@@ -140,14 +140,14 @@ public class EffectsService extends Service
         mNM.notify(R.string.app_name, notification);
     }
     
-    private void notify(String strNote)
-    {
-    	Notification notification = new Notification(R.drawable.icon, strNote, System.currentTimeMillis());
-    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainAct.class), 0);
-    	notification.setLatestEventInfo(this, getText(R.string.local_service_label), strNote, contentIntent);
-    	mNM.notify(R.string.app_name, notification);
-    }
+//    private void notify(String strNote)
+//    {
+//    	Notification notification = new Notification(R.drawable.icon, strNote, System.currentTimeMillis());
+//    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+//                new Intent(this, MainAct.class), 0);
+//    	notification.setLatestEventInfo(this, getText(R.string.local_service_label), strNote, contentIntent);
+//    	mNM.notify(R.string.app_name, notification);
+//    }
     
     /**
      * Start the timer when starting the service

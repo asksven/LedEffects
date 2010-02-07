@@ -10,9 +10,7 @@ import android.content.Intent;
 import android.os.BatteryManager;
 import android.util.Log;
 
-import com.asksven.ledeffects.data.Preferences;
-import com.asksven.ledeffects.manager.EffectManager;
-import com.asksven.ledeffects.manager.EffectsState;
+import com.asksven.ledeffects.manager.EffectsFassade;
 
 /**
  * @author sven
@@ -28,19 +26,17 @@ public class BatteryBroadcastHandler extends BroadcastReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
-		Preferences myPrefs = new Preferences(context);
-        boolean bAutostart = myPrefs.getAutostart();
-        EffectsState myState = EffectsState.getInstance();
+        EffectsFassade myEffectMgr = EffectsFassade.getInstance();
         
 		// Events for power state	
 		if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED))
 		{
-			myState.setStateCharging(true);
+			myEffectMgr.setStateCharging(true);
 		}
 		
 		if (intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED))
 		{
-			myState.setStateCharging(false);
+			myEffectMgr.setStateCharging(false);
 		}
 
 		if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED))
@@ -48,33 +44,32 @@ public class BatteryBroadcastHandler extends BroadcastReceiver
 			Log.i(getClass().getSimpleName(), "Received Broadcast ACTION_BATTERY_CHANGED");
 
 		    
-            int plugType = intent.getIntExtra("plugged", 0);
             int status = intent.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN);
             
 
             if (status == BatteryManager.BATTERY_STATUS_CHARGING)
             {
-            	myState.setStateCharging(true);
+            	myEffectMgr.setStateCharging(true);
             }
             else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING)
             {
             	// status battery discharging
-            	myState.setStateCharging(false);
+            	myEffectMgr.setStateCharging(false);
             }
             else if (status == BatteryManager.BATTERY_STATUS_NOT_CHARGING)
             {
                 // status battery not charging
-            	myState.setStateCharging(false);
+            	myEffectMgr.setStateCharging(false);
 
             }
             else
             {
                 // status unknown
-            	myState.setStateCharging(false);
+            	myEffectMgr.setStateCharging(false);
             }
 		}
 
 		// Apply the effect for current state
-		EffectManager.doEffect(context, myPrefs.getEffectForState(myState.getState()));
+		EffectsFassade.getInstance().doEffect(context);
 	}
 }

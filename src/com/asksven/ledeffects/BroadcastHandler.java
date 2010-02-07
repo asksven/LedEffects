@@ -6,12 +6,10 @@ package com.asksven.ledeffects;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.BatteryManager;
 import android.util.Log;
 
 import com.asksven.ledeffects.data.Preferences;
-import com.asksven.ledeffects.manager.EffectManager;
-import com.asksven.ledeffects.manager.EffectsState;
+import com.asksven.ledeffects.manager.EffectsFassade;
 
 /**
  * @author sven
@@ -21,6 +19,7 @@ public class BroadcastHandler extends BroadcastReceiver
 {
 	private static final String ACTION_SMS = "android.provider.Telephony.SMS_RECEIVED";
 	private static final String ACTION_CALL = "android.intent.action.PHONE_STATE";
+	private static final String ACTION_MAIL = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
 	
 	
 	/* (non-Javadoc)
@@ -31,9 +30,13 @@ public class BroadcastHandler extends BroadcastReceiver
 	{
 		Preferences myPrefs = new Preferences(context);
         boolean bAutostart = myPrefs.getAutostart();
-        EffectsState myState = EffectsState.getInstance();
+        EffectsFassade myEffectsMgr = EffectsFassade.getInstance();
         
-
+        if ((intent.getAction().equals(ACTION_MAIL)))
+        {
+        	myEffectsMgr.setNotifyMail(true);
+        }
+        
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
 		{
 			Log.i(getClass().getSimpleName(), "Received Broadcast ACTION_BOOT_COMPLETED");
@@ -48,7 +51,7 @@ public class BroadcastHandler extends BroadcastReceiver
 		// Incoming SMS
 		if (intent.getAction().equals(ACTION_SMS))
 		{
-			myState.setNotifySMS(true);
+			myEffectsMgr.setNotifySMS(true);
 		}
 
 		// Events for call
@@ -60,21 +63,21 @@ public class BroadcastHandler extends BroadcastReceiver
 			// hung up
 			if (phoneState.equals(android.telephony.TelephonyManager.EXTRA_STATE_IDLE))
 			{
-				myState.setStateRinging(false);
+				myEffectsMgr.setStateRinging(false);
 			}
 			
 			else if (phoneState.equals(android.telephony.TelephonyManager.EXTRA_STATE_RINGING))
 			{
-				myState.setStateRinging(true);
+				myEffectsMgr.setStateRinging(true);
 			}
 			else if (phoneState.equals(android.telephony.TelephonyManager.EXTRA_STATE_OFFHOOK))
 			{
-				myState.setStateRinging(false);
+				myEffectsMgr.setStateRinging(false);
 			}
 			
 		}
 		
 		// Apply the effect for current state
-		EffectManager.doEffect(context, myPrefs.getEffectForState(myState.getState()));
+		myEffectsMgr.doEffect(context);
 	}
 }

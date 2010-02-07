@@ -1,19 +1,16 @@
 package com.asksven.ledeffects;
 
-import com.asksven.ledeffects.data.Preferences;
-import com.asksven.ledeffects.manager.EffectManager;
-import com.asksven.ledeffects.manager.EffectsState;
-
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.Toast;
+
+import com.asksven.ledeffects.manager.EffectsFassade;
 
 
 public class MainAct extends Activity
@@ -56,10 +53,13 @@ public class MainAct extends Activity
         // cancel any notification that we started by us
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.cancel(R.string.app_name);
-        EffectsState.getInstance().setNotifyReadAll();
-        Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
-        String strEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
-        EffectManager.doEffect(this.getApplicationContext(), strEffect);
+        
+        // when we open the main activity we want all notifications to be cleared
+        EffectsFassade.getInstance().clearAllNotifications(this);
+
+//        Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
+//        String strEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
+//        EffectManager.doEffect(this.getApplicationContext(), strEffect);
     	super.onResume();
                 
     }

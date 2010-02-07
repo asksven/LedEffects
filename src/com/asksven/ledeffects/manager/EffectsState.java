@@ -19,11 +19,12 @@ public class EffectsState
 	
 	public static final int STATE_CHARGING	= 10;
 	public static final int STATE_RINGING	= 11;
+	public static final int STATE_SLEEPING	= 12;
 	
 	private static EffectsState m_oState = null;
 	
 	/** returns the Singleton instance */
-	public static EffectsState getInstance()
+	protected static EffectsState getInstance()
 	{
 		if (m_oState == null)
 		{
@@ -39,7 +40,7 @@ public class EffectsState
 	 * then comes notifications (SMS, IM, Mail)
 	 * and finally comes charging
 	 */
-	public int getState()
+	protected int getState()
 	{
 		if (this.getStateRinging())
 		{
@@ -81,7 +82,7 @@ public class EffectsState
 	/**
 	 * @return the Ringing State
 	 */
-	public boolean getStateRinging()
+	protected boolean getStateRinging()
 	{
 		return bStateRinging;
 	}
@@ -89,7 +90,7 @@ public class EffectsState
 	/**
 	 * @return the Charging State
 	 */
-	public boolean getStateCharging() 
+	protected boolean getStateCharging() 
 	{
 		return bStateCharging;
 	}
@@ -97,7 +98,7 @@ public class EffectsState
 	/**
 	 * @return the SMS Notify State
 	 */
-	public boolean getNotifySMS()
+	protected boolean getNotifySMS()
 	{
 		return bNotifySMS;
 	}
@@ -105,7 +106,7 @@ public class EffectsState
 	/**
 	 * @return the IM Notify State
 	 */
-	public boolean getNotifyIM()
+	protected boolean getNotifyIM()
 	{
 		return bNotifyIM;
 	}
@@ -113,7 +114,7 @@ public class EffectsState
 	/**
 	 * @return the Mail Notify State
 	 */
-	public boolean getNotifyMail() 
+	protected boolean getNotifyMail() 
 	{
 		return bNotifyMail;
 	}
@@ -122,7 +123,7 @@ public class EffectsState
 	 * Sets the Ringing State
 	 * @param bStateRinging the bStateRinging to set
 	 */
-	public void setStateRinging(boolean bStateRinging)
+	protected void setStateRinging(boolean bStateRinging)
 	{
 		this.bStateRinging = bStateRinging;
 		Log.d(getClass().getSimpleName(), "Set Ringing state to " + bStateRinging);
@@ -132,7 +133,7 @@ public class EffectsState
 	 * Sets the Charging State
 	 * @param bStateCharging the bStateCharging to set
 	 */
-	public void setStateCharging(boolean bStateCharging)
+	protected void setStateCharging(boolean bStateCharging)
 	{
 		this.bStateCharging = bStateCharging;
 		Log.d(getClass().getSimpleName(), "Set Charging state to " + bStateCharging);
@@ -142,7 +143,7 @@ public class EffectsState
 	 * Sets the SMS Notification
 	 * @param bNotifySMS the bNotifySMS to set
 	 */
-	public void setNotifySMS(boolean bNotifySMS)
+	protected void setNotifySMS(boolean bNotifySMS)
 	{
 		this.bNotifySMS = bNotifySMS;
 		Log.d(getClass().getSimpleName(), "Set SMS notifications to " + bNotifySMS);
@@ -152,7 +153,7 @@ public class EffectsState
 	 * Sets the IM Notification
 	 * @param bNotifyIM the bNotifyIM to set
 	 */
-	public void setNotifyIM(boolean bNotifyIM)
+	protected void setNotifyIM(boolean bNotifyIM)
 	{
 		this.bNotifyIM = bNotifyIM;
 		Log.d(getClass().getSimpleName(), "Set IM notifications to " + bNotifyIM);
@@ -162,14 +163,14 @@ public class EffectsState
 	 * Sets the Mail Notification
 	 * @param bNotifyMail the bNotifyMail to set
 	 */
-	public void setNotifyMail(boolean bNotifyMail)
+	protected void setNotifyMail(boolean bNotifyMail)
 	{
 		this.bNotifyMail = bNotifyMail;
 		Log.d(getClass().getSimpleName(), "Set Mail notifications to " + bNotifyMail);
 	}
 	
 	
-	public void setNotifyReadAll()
+	protected void setNotifyReadAll()
 	{
 		setNotifyIM(false);
 		setNotifySMS(false);
