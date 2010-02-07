@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LedEffects V0.51</string>
+    <string name="app_name">LedEffects V0.52</string>
     <string name="app_author">SvenK</string>
     <string name="app_about">A service to manage LED effects in response to various events</string>
     <string name="local_service_started">LedEffects started</string>
