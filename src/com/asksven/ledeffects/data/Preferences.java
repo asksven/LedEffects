@@ -236,14 +236,21 @@ public class Preferences
 	    editor.putInt("effectIM", getEffectIM());
 	    editor.putInt("effectSleep", getEffectSleep());
 	    
+	    applySleep();
+	    
+	    editor.commit();
+	}
+	
+	/** applies sleep mode */
+	public void applySleep()
+	{
 	    // write to kernel if sleep is to be applied
 	    if (getApplySleep())
 	    {
 	    	EffectsFassade.getInstance().writeSleepEffect(getEffectSleep());
 	    }
-	    editor.commit();
+
 	}
-	
 	
 	/**
 	 * @return the pollInterval
