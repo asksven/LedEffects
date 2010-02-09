@@ -18,7 +18,6 @@ import com.asksven.ledeffects.data.Preferences;
  * Fassade to all effect-related processing
  * EffectFassade is implemented as Singleton
  * @author sven
- *
  */
 public class EffectsFassade
 {

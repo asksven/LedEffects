@@ -7,6 +7,12 @@ import android.content.SharedPreferences;
 import com.asksven.ledeffects.manager.EffectsFassade;
 import com.asksven.ledeffects.manager.EffectsState;
 
+
+/**
+ * Value holder for Preferences
+ * @author sven
+ *
+ */
 public class Preferences
 {
 	public static final String PREFS_NAME = "LedEffectsPrefs";

@@ -15,22 +15,22 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+/**
+ * EffectManager encapsulates the writing to the dbgfs ressources responsible
+ * for the handling the effect (kernel level)  
+ * @author sven
+ *
+ */
 public class EffectManager
 {
-/*	public static final String EFFECT_NONE 		= "0";
-	public static final String EFFECT_RING 		= "1";
-	public static final String EFFECT_BLINK 	= "2";
-	public static final String EFFECT_BREATHE 	= "3";
-	public static final String EFFECT_FADE 		= "4";
-	public static final String EFFECT_ROTATE 	= "5";
-	public static final String EFFECT_VERTICAL	= "6";
-*/	
-	private static int m_iCurrentState		= 0;
+	private static int m_iCurrentState				= 0;
 	
-	private static final String FILE_EFFECTS 	= "/dbgfs/micropklt_dbg/effects";
+	private static final String FILE_EFFECTS 		= "/dbgfs/micropklt_dbg/effects";
 	private static final String FILE_SLEEP_EFFECTS 	= "/dbgfs/micropklt_dbg/sleep_effects";
 	
-	/** Apply the effect by echoing to FILE_EFFECTS */
+	/** 
+	 * Apply the effect by echoing to FILE_EFFECTS 
+	 */
 	protected static boolean doEffect(int iEffect)
 	{
 		boolean bChanged = false;
@@ -55,23 +55,6 @@ public class EffectManager
 			{
 				e.printStackTrace();
 			}
-/*			finally
-			{
-				if (iEffect != 0)
-				{
-					NotificationManager mNM = (NotificationManager)ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-					String strNote = "Applying effect " + iEffect;
-			    	Notification notification = new Notification(R.drawable.icon, strNote, System.currentTimeMillis());
-			    	PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0,
-			                new Intent(ctx, MainAct.class), 0);
-			    	notification.setLatestEventInfo(ctx, ctx.getText(R.string.local_service_label), strNote, contentIntent);
-			    	mNM.notify(R.string.app_name, notification);
-			    	
-			    	
-				}
-	
-			}
-			*/
 		}
 		else
 		{
@@ -80,7 +63,10 @@ public class EffectManager
 		
 		return bChanged;
 	}
-	/** Save the effect by echoing to FILE_SLEEP_EFFECTS */
+	
+	/** 
+	 * Save the sleep effect by echoing to FILE_SLEEP_EFFECTS
+	 */
 	protected static void writeSleepEffect(int iEffect)
 	{
 		m_iCurrentState = iEffect;
