@@ -17,6 +17,13 @@ import android.widget.Toast;
 import com.asksven.ledeffects.data.Preferences;
 import com.asksven.ledeffects.manager.EffectsFassade;
 
+/**
+ * The LedEffects Service keeps running even if the main Activity is not displayed/never called
+ * The Services takes care of always running tasks and of tasks taking place once in the lifecycle
+ * without user interaction.
+ * @author sven
+ *
+ */
 public class EffectsService extends Service
 {
 	private NotificationManager mNM;
@@ -45,13 +52,11 @@ public class EffectsService extends Service
     @Override
     public void onCreate()
     {
+    	Log.i(getClass().getSimpleName(), "onCreate called");
+
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        Log.i(getClass().getSimpleName(), "onCreate called");
-        // Display a notification about us starting.  We put an icon in the status bar.
-//        showNotification();
         
-        // start the timer
-//        startTimer();
+        //        startTimer();
 
         // tried to fix bug http://code.google.com/p/android/issues/detail?id=3259
 		// by programmatically registering to the event
@@ -60,12 +65,12 @@ public class EffectsService extends Service
         	m_oBatHandler = new BatteryBroadcastHandler();
             registerReceiver(m_oBatHandler, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             m_bRegistered = true;
-        }
-        
+        }        
     }
 
-    
-//	    @Override
+    /** 
+     * Called when service is started
+     */
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         // read the Preferences upon start
@@ -76,8 +81,10 @@ public class EffectsService extends Service
         // stopped, so return sticky.
         return 1; // Service.START_STICKY;
     }
-
     @Override
+    /**
+     * Called when Service is terminated
+     */
     public void onDestroy()
     {
         // Cancel the persistent notification.
@@ -85,8 +92,7 @@ public class EffectsService extends Service
         
         // unregister the broadcastreceiver
         unregisterReceiver(m_oBatHandler);
-        // Tell the user we stopped.
-        Toast.makeText(this, R.string.local_service_stopped, Toast.LENGTH_SHORT).show();
+
         stopTimer();
     }
 
@@ -106,63 +112,20 @@ public class EffectsService extends Service
     private void updateEffects()
     {
 		// Apply the effect for current state
-//    	Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
-//    	String strEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
-//		boolean bChanged = EffectManager.doEffect(this.getApplicationContext(), strEffect);
-//		if ((bChanged) && (!strEffect.equals(EffectManager.EFFECT_NONE)))
-//		{
-//			this.notify("Applying effect " + strEffect);
-//		}
     	EffectsFassade.getInstance().doEffect(this);
 		
     }
-
-    /**
-     * Show a notification while this service is running.
-     */
-    private void showNotification()
-    {
-        // In this sample, we'll use the same text for the ticker and the expanded notification
-        CharSequence text = getText(R.string.local_service_started);
-
-        // Set the icon, scrolling text and timestamp
-        Notification notification = new Notification(R.drawable.icon, text, System.currentTimeMillis());
-
-        // The PendingIntent to launch our activity if the user selects this notification
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainAct.class), 0);
-
-        // Set the info for the views that show in the notification panel.
-        notification.setLatestEventInfo(this, getText(R.string.local_service_label), text, contentIntent);
-
-        // Send the notification.
-        // We use a layout id because it is a unique number.  We use it later to cancel.
-        mNM.notify(R.string.app_name, notification);
-    }
-    
-//    private void notify(String strNote)
-//    {
-//    	Notification notification = new Notification(R.drawable.icon, strNote, System.currentTimeMillis());
-//    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-//                new Intent(this, MainAct.class), 0);
-//    	notification.setLatestEventInfo(this, getText(R.string.local_service_label), strNote, contentIntent);
-//    	mNM.notify(R.string.app_name, notification);
-//    }
     
     /**
      * Start the timer when starting the service
      */
     private void startTimer()
-    {
-    	// read the Preferences upon start
-        loadPrefs();
-        
+    {        
     	timer.scheduleAtFixedRate(
     			new TimerTask()
     			{
 			        public void run()
 			        {
-			        	
 			        	updateEffects();
 			        }
 			     }, 0, m_lUpdateInterval);
@@ -178,11 +141,14 @@ public class EffectsService extends Service
 		Log.i(getClass().getSimpleName(), "Timer stopped!!!");
 	}
     
-    /** read the current preferences */
+    /**
+     *  read the persisited preferences and set the sleep-effect when the service starts
+     */
     private void loadPrefs()
     {
         Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
         m_lUpdateInterval 	= myPrefs.getPollInterval() * 1000; // as timer is in ms
+        myPrefs.applySleep();
 
     }
     

@@ -13,6 +13,9 @@ import android.util.Log;
 import com.asksven.ledeffects.manager.EffectsFassade;
 
 /**
+ * Specific broadcast handler for Battery-Events. The reason why battery is not handeled
+ * in main handler @see BroadcastHandler is that battery events won't be triggered by events registered
+ * in Manifest. Therefore this specific handler is registered/unregistered from the Service (@see EffectsService)
  * @author sven
  *
  */

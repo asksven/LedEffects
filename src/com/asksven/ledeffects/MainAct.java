@@ -13,7 +13,11 @@ import android.widget.Toast;
 import com.asksven.ledeffects.data.Preferences;
 import com.asksven.ledeffects.manager.EffectsFassade;
 
-
+/**
+ * The main Activity of LedEffects
+ * @author sven
+ *
+ */
 public class MainAct extends Activity
 {
     private boolean m_bIsStarted;
@@ -24,23 +28,26 @@ public class MainAct extends Activity
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-     // cancel any notification that we started by us
-//        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//        nm.cancel(R.string.app_name);
         // Set UI stuff
-        setContentView(R.layout.main); //local_service_binding);
+        setContentView(R.layout.main);
 
                 
         // run the underlying service
         startService();
     }
     @Override
+    /**
+     * Called when Activity is paused
+     */
     protected void onPause()
     {
     	super.onPause();
     }
     
     @Override
+    /**
+     * Called when activity is stopped
+     */
     public void onStop()
     {
     	super.onStop();
@@ -48,12 +55,11 @@ public class MainAct extends Activity
     }
     
     @Override
+    /**
+     * Called after Activity was first created and/or when it resumes
+     */
     protected void onResume()
     {
-    	Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
-    	
-    	// make sure the sleep effect is persisted when loading LefEffects
-    	myPrefs.applySleep();
         // cancel any notification that we started by us
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.cancel(R.string.app_name);
@@ -61,16 +67,14 @@ public class MainAct extends Activity
         // when we open the main activity we want all notifications to be cleared
         EffectsFassade.getInstance().clearAllNotifications(this);
 
-//        Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
-//        String strEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
-//        EffectManager.doEffect(this.getApplicationContext(), strEffect);
-    	super.onResume();
-                
+    	super.onResume();                
     }
         
-    // Called only the first time the options menu is displayed.
-    // Create the menu entries.
-    // Menu adds items in the order shown.
+    /**
+     * Called only the first time the options menu is displayed.
+     * Create the menu entries.
+     * Menu adds items in the order shown.
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.add("Preferences");
@@ -81,7 +85,9 @@ public class MainAct extends Activity
         return true;
     }
 
-    // handle menu selected
+    /**
+     * handle menu selected
+     */
     public boolean onOptionsItemSelected(MenuItem item)
     {
     	if (item.getTitle().equals("Preferences"))
@@ -106,6 +112,9 @@ public class MainAct extends Activity
     	}
     }
 
+    /** 
+     * Starts the service 
+     */
 	private void startService()
 	{
 		if( m_bIsStarted )
@@ -122,6 +131,9 @@ public class MainAct extends Activity
 		}
 	}
 
+	/**
+	 * Stops the service
+	 */
 	private void stopService()
 	{
 		if( m_bIsStarted )

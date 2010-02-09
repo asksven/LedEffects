@@ -12,6 +12,7 @@ import com.asksven.ledeffects.data.Preferences;
 import com.asksven.ledeffects.manager.EffectsFassade;
 
 /**
+ * General broadcast handler: handles event as registered on Manifest
  * @author sven
  *
  */
