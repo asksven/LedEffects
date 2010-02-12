@@ -14,6 +14,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * EffectManager encapsulates the writing to the dbgfs ressources responsible
@@ -34,7 +35,7 @@ public class EffectManager
 	protected static boolean doEffect(int iEffect)
 	{
 		boolean bChanged = false;
-		
+		Log.d("EffectManager.doEffect", "Writing effect " + iEffect + " to filesystem");
 		if (iEffect != m_iCurrentState)
 		{
 			bChanged = true;
@@ -69,6 +70,7 @@ public class EffectManager
 	 */
 	protected static void writeSleepEffect(int iEffect)
 	{
+		Log.d("EffectManager.writeSleepEffect", "Writing effect " + iEffect + " to filesystem");
 		m_iCurrentState = iEffect;
 		try
 		{
@@ -87,5 +89,4 @@ public class EffectManager
 			e.printStackTrace();
 		}
 	}
-	
 }

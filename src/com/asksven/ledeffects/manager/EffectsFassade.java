@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.asksven.ledeffects.MainAct;
 import com.asksven.ledeffects.R;
@@ -39,10 +40,10 @@ public class EffectsFassade
 	/** apply the effect following the current state */
 	public void doEffect(Context ctx)
 	{
-		EffectsState myState = EffectsState.getInstance();
 		Preferences myPrefs = new Preferences(ctx.getSharedPreferences(Preferences.PREFS_NAME, 0));
     	Effect oEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
 		boolean bChanged = EffectManager.doEffect(oEffect.getEffect());
+		Log.d(getClass().getSimpleName(), "Applying effect " + oEffect.getEffect());
 		if ((bChanged) && (oEffect.getEffect() != 0))
 		{
 			// show text in status bar if this is set
@@ -54,7 +55,7 @@ public class EffectsFassade
 			if (oEffect.getTimed())
 			{
 		    	Timer timer = new Timer();
-		    	
+		    	Log.d(getClass().getSimpleName(), "Starting timer to stop effect");
 		    	timer.schedule(
 		    			new TimerTask()
 		    			{
@@ -99,6 +100,7 @@ public class EffectsFassade
 	/** notifications are limitied in time and can be cleared. Upon clearing them a permanent effect may be reapplied (like e.g. charging) */ 
 	public void clearAllNotifications(Context ctx)
 	{
+		Log.d(getClass().getSimpleName(), "Clearing all temporary notifications and apply permanent effects");
         Preferences myPrefs = new Preferences(ctx.getSharedPreferences(Preferences.PREFS_NAME, 0));
         EffectsState.getInstance().setNotifyReadAll();
         Effect oEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());

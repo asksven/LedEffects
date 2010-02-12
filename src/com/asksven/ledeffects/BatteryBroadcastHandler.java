@@ -34,33 +34,35 @@ public class BatteryBroadcastHandler extends BroadcastReceiver
 		// Events for power state	
 		if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED))
 		{
+			Log.d(getClass().getSimpleName(), "Received Broadcast ACTION_POWER_CONNECTED");
 			myEffectMgr.setStateCharging(true);
 		}
 		
 		if (intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED))
 		{
+			Log.d(getClass().getSimpleName(), "Received Broadcast ACTION_POWER_DISCONNECTED");
 			myEffectMgr.setStateCharging(false);
 		}
 
 		if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED))
 		{
-			Log.i(getClass().getSimpleName(), "Received Broadcast ACTION_BATTERY_CHANGED");
-
-		    
             int status = intent.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN);
             
 
             if (status == BatteryManager.BATTERY_STATUS_CHARGING)
             {
+            	Log.d(getClass().getSimpleName(), "Status is BATTERY_STATUS_CHARGING");
             	myEffectMgr.setStateCharging(true);
             }
             else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING)
             {
             	// status battery discharging
+            	Log.d(getClass().getSimpleName(), "Status is BATTERY_STATUS_DISCHARGING");
             	myEffectMgr.setStateCharging(false);
             }
             else if (status == BatteryManager.BATTERY_STATUS_NOT_CHARGING)
             {
+            	Log.d(getClass().getSimpleName(), "Status is BATTERY_STATUS_NOT_CHARGING");
                 // status battery not charging
             	myEffectMgr.setStateCharging(false);
 
@@ -68,6 +70,7 @@ public class BatteryBroadcastHandler extends BroadcastReceiver
             else
             {
                 // status unknown
+            	Log.d(getClass().getSimpleName(), "Status is BATTERY_STATUS_UNKNOWN");
             	myEffectMgr.setStateCharging(false);
             }
 		}

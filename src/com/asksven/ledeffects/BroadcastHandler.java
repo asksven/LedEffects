@@ -35,6 +35,7 @@ public class BroadcastHandler extends BroadcastReceiver
         
         if ((intent.getAction().equals(ACTION_MAIL)))
         {
+        	Log.d(getClass().getSimpleName(), "Received Broadcast ACTION_MAIL");
         	myEffectsMgr.setNotifyMail(true);
         }
         
@@ -43,7 +44,7 @@ public class BroadcastHandler extends BroadcastReceiver
 			Log.i(getClass().getSimpleName(), "Received Broadcast ACTION_BOOT_COMPLETED");
 			if (bAutostart)
 			{
-				Log.i(getClass().getSimpleName(), "Autostart is set so run");
+				Log.i(getClass().getSimpleName(), "Autostart is set so run, starting service");
 				context.startService(new Intent(context, EffectsService.class));
 			}
 		}
@@ -52,6 +53,7 @@ public class BroadcastHandler extends BroadcastReceiver
 		// Incoming SMS
 		if (intent.getAction().equals(ACTION_SMS))
 		{
+			Log.d(getClass().getSimpleName(), "Received Broadcast ACTION_SMS");
 			myEffectsMgr.setNotifySMS(true);
 		}
 
@@ -59,20 +61,24 @@ public class BroadcastHandler extends BroadcastReceiver
 		// Incoming Call 
 		if (intent.getAction().equals(ACTION_CALL))
 		{
+			Log.d(getClass().getSimpleName(), "Received Broadcast ACTION_CALL");
 			String phoneState = intent.getExtras().getString("state");
 
 			// hung up
 			if (phoneState.equals(android.telephony.TelephonyManager.EXTRA_STATE_IDLE))
 			{
+				Log.d(getClass().getSimpleName(), "Received Broadcast EXTRA_STATE_IDLE");
 				myEffectsMgr.setStateRinging(false);
 			}
 			
 			else if (phoneState.equals(android.telephony.TelephonyManager.EXTRA_STATE_RINGING))
 			{
+				Log.d(getClass().getSimpleName(), "Received Broadcast EXTRA_STATE_RINGING");
 				myEffectsMgr.setStateRinging(true);
 			}
 			else if (phoneState.equals(android.telephony.TelephonyManager.EXTRA_STATE_OFFHOOK))
 			{
+				Log.d(getClass().getSimpleName(), "Received Broadcast EXTRA_STATE_OFFHOOK");
 				myEffectsMgr.setStateRinging(false);
 			}
 			

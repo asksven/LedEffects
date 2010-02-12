@@ -134,8 +134,11 @@ public class EffectsState
 	 */
 	protected void setStateRinging(boolean bStateRinging)
 	{
-		this.bStateRinging = bStateRinging;
-		Log.d(getClass().getSimpleName(), "Set Ringing state to " + bStateRinging);
+		if (this.bStateRinging != bStateRinging)
+		{
+			this.bStateRinging = bStateRinging;
+			Log.d(getClass().getSimpleName(), "Set Ringing state to " + bStateRinging);
+		}
 	}
 
 	/**
@@ -144,8 +147,11 @@ public class EffectsState
 	 */
 	protected void setStateCharging(boolean bStateCharging)
 	{
-		this.bStateCharging = bStateCharging;
-		Log.d(getClass().getSimpleName(), "Set Charging state to " + bStateCharging);
+		if (this.bStateCharging != bStateCharging)
+		{
+			this.bStateCharging = bStateCharging;
+			Log.d(getClass().getSimpleName(), "Set Charging state to " + bStateCharging);
+		}
 	}
 
 	/**
@@ -154,8 +160,11 @@ public class EffectsState
 	 */
 	protected void setNotifySMS(boolean bNotifySMS)
 	{
-		this.bNotifySMS = bNotifySMS;
-		Log.d(getClass().getSimpleName(), "Set SMS notifications to " + bNotifySMS);
+		if (this.bNotifySMS != bNotifySMS)
+		{
+			this.bNotifySMS = bNotifySMS;
+			Log.d(getClass().getSimpleName(), "Set SMS notifications to " + bNotifySMS);
+		}
 	}
 
 	/**
@@ -164,8 +173,11 @@ public class EffectsState
 	 */
 	protected void setNotifyIM(boolean bNotifyIM)
 	{
-		this.bNotifyIM = bNotifyIM;
-		Log.d(getClass().getSimpleName(), "Set IM notifications to " + bNotifyIM);
+		if (this.bNotifyIM != bNotifyIM)
+		{
+			this.bNotifyIM = bNotifyIM;
+			Log.d(getClass().getSimpleName(), "Set IM notifications to " + bNotifyIM);
+		}
 	}
 
 	/**
@@ -174,8 +186,11 @@ public class EffectsState
 	 */
 	protected void setNotifyMail(boolean bNotifyMail)
 	{
-		this.bNotifyMail = bNotifyMail;
-		Log.d(getClass().getSimpleName(), "Set Mail notifications to " + bNotifyMail);
+		if (this.bNotifyMail != bNotifyMail)
+		{
+			this.bNotifyMail = bNotifyMail;
+			Log.d(getClass().getSimpleName(), "Set Mail notifications to " + bNotifyMail);
+		}
 	}
 	
 	/**
@@ -183,9 +198,12 @@ public class EffectsState
 	 */
 	protected void setNotifyReadAll()
 	{
-		setNotifyIM(false);
-		setNotifySMS(false);
-		setNotifyMail(false);
-		Log.d(getClass().getSimpleName(), "Disabling all notifications");
+		if ((getNotifyIM()) || (getNotifySMS()) || (getNotifyMail()))
+		{
+			setNotifyIM(false);
+			setNotifySMS(false);
+			setNotifyMail(false);
+			Log.d(getClass().getSimpleName(), "Disabling temp notifications");
+		}
 	}
 }
