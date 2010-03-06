@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.Toast;
 
-import com.asksven.ledeffects.data.Preferences;
 import com.asksven.ledeffects.manager.EffectsFassade;
 
 /**
@@ -23,6 +22,7 @@ public class MainAct extends Activity
     private boolean m_bIsStarted;
     
     static final int DIALOG_PREFERENCES_ID 	= 0;
+    static final int DIALOG_ABOUT_ID 	= 1;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public class MainAct extends Activity
                 
         // run the underlying service
         startService();
+        
     }
     @Override
     /**
@@ -78,6 +79,7 @@ public class MainAct extends Activity
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.add("Preferences");
+        menu.add("About");
         SubMenu myGroup = menu.addSubMenu("More...");
         myGroup.add("Stop Service");
         myGroup.add("Start Service");
@@ -96,6 +98,13 @@ public class MainAct extends Activity
    			startActivityForResult(intent, DIALOG_PREFERENCES_ID);
     		return true;
     	}
+    	if (item.getTitle().equals("About"))
+    	{
+    		Intent intent = new Intent(this, com.asksven.ledeffects.AboutAct.class);
+   			startActivityForResult(intent, DIALOG_ABOUT_ID);
+    		return true;
+    	}
+
     	else if (item.getTitle().equals("Stop Service"))
     	{
     		stopService();
