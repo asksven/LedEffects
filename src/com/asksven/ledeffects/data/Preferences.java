@@ -30,14 +30,21 @@ public class Preferences
 	private boolean m_bNotifyIM;
 	private boolean m_bApplySleep;
 	
+	private boolean m_bXmppConnect;
+	
 	private int m_iEffectRing;
 	private int m_iEffectCharge;
 	private int m_iEffectSMS;
 	private int m_iEffectMail;
 	private int m_iEffectIM;
 	private int m_iEffectSleep;
-
-
+	
+	private boolean m_bAutoconnect;
+	private String m_strHost;
+	private int m_iPort;
+	private String m_strService;
+	private String m_strUsername;
+	private String m_strPassword;
 
 	/** Timer frequency in seconds*/
 	private int m_iPollInterval;
@@ -118,6 +125,16 @@ public class Preferences
 		m_bApplySleep = bApply;
 	}
 
+	public boolean getXmppConnect()
+	{
+		return m_bXmppConnect;
+	}
+
+	public void setXmppConnect(boolean bApply)
+	{
+		m_bXmppConnect = bApply;
+	}
+
 	public int getEffectRing()
 	{
 		return m_iEffectRing;
@@ -177,6 +194,56 @@ public class Preferences
 	{
 		m_iEffectSleep = iPos;
 	}
+
+	public String getHost()
+	{
+		return m_strHost;
+	}
+
+	public void setHost(String strHost)
+	{
+		m_strHost = strHost;
+	}
+
+	public String getService()
+	{
+		return m_strService;
+	}
+
+	public void setService(String strService)
+	{
+		m_strService = strService;
+	}
+
+	public String getUsername()
+	{
+		return m_strUsername;
+	}
+
+	public void setUsername(String strUsername)
+	{
+		m_strUsername = strUsername;
+	}
+
+	public String getPassword()
+	{
+		return m_strPassword;
+	}
+
+	public void setPassword(String strPassword)
+	{
+		m_strPassword = strPassword;
+	}
+
+	public int getPort()
+	{
+		return m_iPort;
+	}
+
+	public void setPort(int iPort)
+	{
+		m_iPort = iPort;
+	}
 	
 	public Preferences(Activity myActivity)
 	{
@@ -212,12 +279,20 @@ public class Preferences
 	    setNotifyIM(m_mySettings.getBoolean("notifyIM", false));
 	    setApplySleep(m_mySettings.getBoolean("applySleep", false));
 	    
+	    setXmppConnect((m_mySettings.getBoolean("xmppConnect", false)));
+	    
 	    setEffectRing(m_mySettings.getInt("effectRing", 0));	    
 	    setEffectCharge(m_mySettings.getInt("effectCharge", 0));
 	    setEffectSMS(m_mySettings.getInt("effectSMS", 0));
 	    setEffectMail(m_mySettings.getInt("effectMail", 0));
 	    setEffectIM(m_mySettings.getInt("effectIM", 0));
 	    setEffectSleep(m_mySettings.getInt("effectSleep", 3));
+	    
+		setHost(m_mySettings.getString("xmppHost", "talk.google.com"));
+		setPort(m_mySettings.getInt("xmppPort", 5222));
+		setService(m_mySettings.getString("xmppService", "gmail.com"));
+		setUsername(m_mySettings.getString("xmppUsername", "username@googlemail.com"));
+		setPassword(m_mySettings.getString("xmppPassword", ""));
 	}
 	
 	public void save()
@@ -241,6 +316,12 @@ public class Preferences
 	    editor.putInt("effectMail", getEffectMail());
 	    editor.putInt("effectIM", getEffectIM());
 	    editor.putInt("effectSleep", getEffectSleep());
+
+		editor.putString("xmppHost", getHost());
+		editor.putInt("xmppPort", getPort());
+		editor.putString("xmppService", getService());
+		editor.putString("xmppUsername", getUsername());
+		editor.putString("xmppPassword", getPassword());
 	    
 	    applySleep();
 	    
