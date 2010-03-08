@@ -21,6 +21,7 @@ public class BroadcastHandler extends BroadcastReceiver
 	private static final String ACTION_SMS = "android.provider.Telephony.SMS_RECEIVED";
 	private static final String ACTION_CALL = "android.intent.action.PHONE_STATE";
 	private static final String ACTION_MAIL = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
+	private static final String ACTION_IM = "com.asksven.ledeffects.NEW_MESSAGE";
 	
 	
 	/* (non-Javadoc)
@@ -39,7 +40,13 @@ public class BroadcastHandler extends BroadcastReceiver
         	myEffectsMgr.setNotifyMail(true);
         }
         
-		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
+        if ((intent.getAction().equals(ACTION_IM)))
+        {
+        	Log.d(getClass().getSimpleName(), "Received Broadcast ACTION_IM");
+        	myEffectsMgr.setNotifyIM(true);
+        }
+
+        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
 		{
 			Log.i(getClass().getSimpleName(), "Received Broadcast ACTION_BOOT_COMPLETED");
 			if (bAutostart)
