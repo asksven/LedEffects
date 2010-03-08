@@ -149,4 +149,11 @@ public class EffectsFassade
 		EffectsState.getInstance().setNotifyMail(bState);
 	}
 
+	/** applies the incoming IM state */
+	public void setNotifyIM(boolean bState)
+	{
+		EffectsState.getInstance().setNotifyIM(bState);
+	}
+
+	
 }
