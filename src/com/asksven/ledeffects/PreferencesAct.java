@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.asksven.ledeffects.data.Preferences;
@@ -74,7 +75,7 @@ public class PreferencesAct extends Activity
         	   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION);
            }
         });
-/*        
+        
         Button btnTestIM = (Button) findViewById(R.id.ButtonTestIM);
         btnTestIM.setOnClickListener(new View.OnClickListener() {
            public void onClick(View arg0) {
@@ -82,7 +83,7 @@ public class PreferencesAct extends Activity
         	   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION);
            }
         });
-*/        
+       
         Button btnTestSleep = (Button) findViewById(R.id.ButtonTestSleep);
         btnTestSleep.setOnClickListener(new View.OnClickListener() {
            public void onClick(View arg0) {
@@ -115,18 +116,19 @@ public class PreferencesAct extends Activity
                 this, R.array.effects, android.R.layout.simple_spinner_item);
         myAdapterMail.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinMail.setAdapter(myAdapterMail);
-/*
+
         Spinner mySpinIM = (Spinner) findViewById(R.id.SpinnerIM);
         ArrayAdapter myAdapterIM = ArrayAdapter.createFromResource(
                 this, R.array.effects, android.R.layout.simple_spinner_item);
         myAdapterIM.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinIM.setAdapter(myAdapterIM);
-*/
+
         Spinner mySpinSleep = (Spinner) findViewById(R.id.SpinnerSleep);
         ArrayAdapter myAdapterSleep = ArrayAdapter.createFromResource(
                 this, R.array.effects, android.R.layout.simple_spinner_item);
         myAdapterSleep.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinSleep.setAdapter(myAdapterSleep);
+        
         
         readPreferences();
     }
@@ -149,8 +151,15 @@ public class PreferencesAct extends Activity
     	Spinner mySpinnerCharge = (Spinner) findViewById(R.id.SpinnerCharge);
     	Spinner mySpinnerSMS 	= (Spinner) findViewById(R.id.SpinnerSMS);
     	Spinner mySpinnerMail 	= (Spinner) findViewById(R.id.SpinnerMail);
-//    	Spinner mySpinnerIM 	= (Spinner) findViewById(R.id.SpinnerIM);
+    	Spinner mySpinnerIM 	= (Spinner) findViewById(R.id.SpinnerIM);
     	Spinner mySpinnerSleep 	= (Spinner) findViewById(R.id.SpinnerSleep);
+    	
+    	CheckBox myAutologon	= (CheckBox) findViewById(R.id.CheckBoxAutologon);
+    	EditText myHost			= (EditText) findViewById(R.id.EditTextHost);
+    	EditText myPort			= (EditText) findViewById(R.id.EditTextPort);
+    	EditText myService		= (EditText) findViewById(R.id.EditTextService);
+    	EditText myUsername		= (EditText) findViewById(R.id.EditTextUsername);
+    	EditText myPassword		= (EditText) findViewById(R.id.EditTextPassword);
     	
     	myAutostart.setChecked(m_myPrefs.getAutostart());
 //        myTimeout.setText	(String.valueOf(m_myPrefs.getPollInterval()));
@@ -165,8 +174,16 @@ public class PreferencesAct extends Activity
         mySpinnerCharge.setSelection(m_myPrefs.getEffectCharge());
         mySpinnerSMS.setSelection(m_myPrefs.getEffectSMS());
         mySpinnerMail.setSelection(m_myPrefs.getEffectMail());
-//        mySpinnerIM.setSelection(m_myPrefs.getEffectIM());
+        mySpinnerIM.setSelection(m_myPrefs.getEffectIM());
         mySpinnerSleep.setSelection(m_myPrefs.getEffectSleep());
+        
+        myAutologon.setChecked(m_myPrefs.getXmppConnect());
+        myHost.setText(String.valueOf(m_myPrefs.getHost()));
+        myPort.setText(String.valueOf(m_myPrefs.getPort()));
+        myService.setText(String.valueOf(m_myPrefs.getService()));
+        myUsername.setText(String.valueOf(m_myPrefs.getUsername()));
+        myPassword.setText(String.valueOf(m_myPrefs.getPassword()));
+        
     }
     
     /** persist changed preferences */
@@ -179,16 +196,24 @@ public class PreferencesAct extends Activity
     	CheckBox myNotifyCharge	= (CheckBox) findViewById(R.id.CheckBoxNotifyCharge);
     	CheckBox myNotifySMS	= (CheckBox) findViewById(R.id.CheckBoxNotifySMS);
     	CheckBox myNotifyMail	= (CheckBox) findViewById(R.id.CheckBoxNotifyMail);
-//    	CheckBox myNotifyIM	= (CheckBox) findViewById(R.id.CheckBoxNotifyIM);
+    	CheckBox myNotifyIM	= (CheckBox) findViewById(R.id.CheckBoxNotifyIM);
     	CheckBox myApplySleep	= (CheckBox) findViewById(R.id.CheckBoxApplySleep);
 
     	Spinner mySpinnerRing 	= (Spinner) findViewById(R.id.SpinnerRing);
     	Spinner mySpinnerCharge = (Spinner) findViewById(R.id.SpinnerCharge);
     	Spinner mySpinnerSMS 	= (Spinner) findViewById(R.id.SpinnerSMS);
     	Spinner mySpinnerMail 	= (Spinner) findViewById(R.id.SpinnerMail);
-//    	Spinner mySpinnerIM 	= (Spinner) findViewById(R.id.SpinnerIM);
+    	Spinner mySpinnerIM 	= (Spinner) findViewById(R.id.SpinnerIM);
     	Spinner mySpinnerSleep 	= (Spinner) findViewById(R.id.SpinnerSleep);
-    
+
+    	CheckBox myAutologon	= (CheckBox) findViewById(R.id.CheckBoxAutologon);
+    	EditText myHost			= (EditText) findViewById(R.id.EditTextHost);
+    	EditText myPort			= (EditText) findViewById(R.id.EditTextPort);
+    	EditText myService		= (EditText) findViewById(R.id.EditTextService);
+    	EditText myUsername		= (EditText) findViewById(R.id.EditTextUsername);
+    	EditText myPassword		= (EditText) findViewById(R.id.EditTextPassword);
+
+    	
     	m_myPrefs.setAutostart(myAutostart.isChecked());
 //    	m_myPrefs.setPollInterval(Integer.parseInt(myTimeout.getText().toString()));
     	
@@ -196,15 +221,23 @@ public class PreferencesAct extends Activity
     	m_myPrefs.setNotifyCharge(myNotifyCharge.isChecked());
     	m_myPrefs.setNotifySMS(myNotifySMS.isChecked());
     	m_myPrefs.setNotifyMail(myNotifyMail.isChecked());
-//    	m_myPrefs.setNotifyIM(myNotifyIM.isChecked());
+    	m_myPrefs.setNotifyIM(myNotifyIM.isChecked());
     	m_myPrefs.setApplySleep(myApplySleep.isChecked());
     	
     	m_myPrefs.setEffectRing(mySpinnerRing.getSelectedItemPosition());
     	m_myPrefs.setEffectCharge(mySpinnerCharge.getSelectedItemPosition());
     	m_myPrefs.setEffectSMS(mySpinnerSMS.getSelectedItemPosition());
     	m_myPrefs.setEffectMail(mySpinnerMail.getSelectedItemPosition());
-//    	m_myPrefs.setEffectIM(mySpinnerIM.getSelectedItemPosition());
+    	m_myPrefs.setEffectIM(mySpinnerIM.getSelectedItemPosition());
     	m_myPrefs.setEffectSleep(mySpinnerSleep.getSelectedItemPosition());
+    	
+    	m_myPrefs.setXmppConnect(myAutologon.isChecked());
+    	m_myPrefs.setHost(myHost.getText().toString());
+    	m_myPrefs.setPort(Integer.parseInt(myPort.getText().toString()));
+    	m_myPrefs.setService(myService.getText().toString());
+    	m_myPrefs.setUsername(myUsername.getText().toString());
+    	m_myPrefs.setPassword(myPassword.getText().toString());
+    	
     	m_myPrefs.save();	
     }
 }
