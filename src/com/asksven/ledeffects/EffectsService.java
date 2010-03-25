@@ -82,7 +82,7 @@ public class EffectsService extends Service
             registerReceiver(m_oBatHandler, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             m_bRegistered = true;
         }
-        m_myXmppClient = new XmppClient(this);
+        m_myXmppClient = XmppClient.getInstance(this);
     }
 
     /** 
