@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 import com.asksven.ledeffects.data.Preferences;
 import com.asksven.ledeffects.manager.EffectsFassade;
+import com.asksven.ledeffects.xmmp.XmppClient;
 
 // see example http://bestsiteinthemultiverse.com/2009/02/android-dialog-screen-example/
 public class PreferencesAct extends Activity 
@@ -91,7 +92,23 @@ public class PreferencesAct extends Activity
         	   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION);
            }
         });
-        
+
+        CheckBox btnConnected = (CheckBox) findViewById(R.id.CheckBoxConnected);
+        btnConnected.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View arg0) {
+        	   CheckBox btnConnected = (CheckBox) findViewById(R.id.CheckBoxConnected);
+        	   XmppClient myClient = XmppClient.getInstance(PreferencesAct.this);
+        	   if (btnConnected.isChecked())
+        	   {
+        		   myClient.connect();
+        	   }
+        	   else
+        	   {
+        		   myClient.disconnect();
+        	   }
+           }
+        });
+
         
         Spinner mySpinRing = (Spinner) findViewById(R.id.SpinnerRing);
         ArrayAdapter myAdapterRing = ArrayAdapter.createFromResource(
@@ -155,6 +172,7 @@ public class PreferencesAct extends Activity
     	Spinner mySpinnerSleep 	= (Spinner) findViewById(R.id.SpinnerSleep);
     	
     	CheckBox myAutologon	= (CheckBox) findViewById(R.id.CheckBoxAutologon);
+    	CheckBox myConnected	= (CheckBox) findViewById(R.id.CheckBoxConnected);
     	EditText myHost			= (EditText) findViewById(R.id.EditTextHost);
     	EditText myPort			= (EditText) findViewById(R.id.EditTextPort);
     	EditText myService		= (EditText) findViewById(R.id.EditTextService);
@@ -178,6 +196,7 @@ public class PreferencesAct extends Activity
         mySpinnerSleep.setSelection(m_myPrefs.getEffectSleep());
         
         myAutologon.setChecked(m_myPrefs.getXmppConnect());
+        myConnected.setChecked(XmppClient.getInstance(this).isConnected());
         myHost.setText(String.valueOf(m_myPrefs.getHost()));
         myPort.setText(String.valueOf(m_myPrefs.getPort()));
         myService.setText(String.valueOf(m_myPrefs.getService()));
