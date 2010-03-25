@@ -35,13 +35,14 @@ public class EffectManager
 	protected static boolean doEffect(int iEffect)
 	{
 		boolean bChanged = false;
-		Log.d("EffectManager.doEffect", "Writing effect " + iEffect + " to filesystem");
+		Log.d("EffectManager.doEffect", "was called with effect " + iEffect);
 		if (iEffect != m_iCurrentState)
 		{
 			bChanged = true;
 			m_iCurrentState = iEffect;
 			try
 			{
+				Log.d("EffectManager.doEffect", "Writing effect " + iEffect + " to filesystem");
 				// dirty hack: http://code.google.com/p/market-enabler/wiki/ShellCommands
 				Process process = Runtime.getRuntime().exec("su");
 				DataOutputStream os = new DataOutputStream(process.getOutputStream());
