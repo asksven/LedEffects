@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.asksven.ledeffects"
-      android:versionCode="060"
-      android:versionName="0.60">
+      android:versionCode="061"
+      android:versionName="0.61">
     <application android:icon="@drawable/icon2" android:label="@string/app_name">
         <activity android:name=".MainAct"
                   android:label="@string/app_name">
@@ -24,6 +24,9 @@
                 <action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
                 <data android:scheme="email" />
             </intent-filter>
+			<intent-filter>
+                <action android:name="com.asksven.xtremepp.intent.action.MESSAGE_RECEIVED" />
+            </intent-filter>            
 		</receiver>
 		<service android:name=".EffectsService"/>
 
