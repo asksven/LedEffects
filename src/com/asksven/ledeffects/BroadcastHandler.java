@@ -18,10 +18,10 @@ import com.asksven.ledeffects.manager.EffectsFassade;
  */
 public class BroadcastHandler extends BroadcastReceiver
 {
-	private static final String ACTION_SMS = "android.provider.Telephony.SMS_RECEIVED";
+	private static final String ACTION_SMS 	= "android.provider.Telephony.SMS_RECEIVED";
 	private static final String ACTION_CALL = "android.intent.action.PHONE_STATE";
 	private static final String ACTION_MAIL = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
-	private static final String ACTION_IM = "com.asksven.ledeffects.NEW_MESSAGE";
+	private static final String ACTION_IM 	= "com.asksven.xtremepp.intent.action.MESSAGE_RECEIVED";
 	
 	
 	/* (non-Javadoc)
@@ -42,7 +42,9 @@ public class BroadcastHandler extends BroadcastReceiver
         
         if ((intent.getAction().equals(ACTION_IM)))
         {
+        	// todo: retrieve extras from Intent (from and message)
         	Log.d(getClass().getSimpleName(), "Received Broadcast ACTION_IM");
+        	
         	myEffectsMgr.setNotifyIM(true);
         }
 

@@ -12,7 +12,6 @@ import android.widget.Spinner;
 
 import com.asksven.ledeffects.data.Preferences;
 import com.asksven.ledeffects.manager.EffectsFassade;
-import com.asksven.ledeffects.xmmp.XmppClient;
 
 // see example http://bestsiteinthemultiverse.com/2009/02/android-dialog-screen-example/
 public class PreferencesAct extends Activity 
@@ -93,23 +92,6 @@ public class PreferencesAct extends Activity
            }
         });
 
-        CheckBox btnConnected = (CheckBox) findViewById(R.id.CheckBoxConnected);
-        btnConnected.setOnClickListener(new View.OnClickListener() {
-           public void onClick(View arg0) {
-        	   CheckBox btnConnected = (CheckBox) findViewById(R.id.CheckBoxConnected);
-        	   XmppClient myClient = XmppClient.getInstance(PreferencesAct.this);
-        	   if (btnConnected.isChecked())
-        	   {
-        		   myClient.connect();
-        	   }
-        	   else
-        	   {
-        		   myClient.disconnect();
-        	   }
-           }
-        });
-
-        
         Spinner mySpinRing = (Spinner) findViewById(R.id.SpinnerRing);
         ArrayAdapter myAdapterRing = ArrayAdapter.createFromResource(
                 this, R.array.effects, android.R.layout.simple_spinner_item);
@@ -171,14 +153,6 @@ public class PreferencesAct extends Activity
     	Spinner mySpinnerIM 	= (Spinner) findViewById(R.id.SpinnerIM);
     	Spinner mySpinnerSleep 	= (Spinner) findViewById(R.id.SpinnerSleep);
     	
-    	CheckBox myAutologon	= (CheckBox) findViewById(R.id.CheckBoxAutologon);
-    	CheckBox myConnected	= (CheckBox) findViewById(R.id.CheckBoxConnected);
-    	EditText myHost			= (EditText) findViewById(R.id.EditTextHost);
-    	EditText myPort			= (EditText) findViewById(R.id.EditTextPort);
-    	EditText myService		= (EditText) findViewById(R.id.EditTextService);
-    	EditText myUsername		= (EditText) findViewById(R.id.EditTextUsername);
-    	EditText myPassword		= (EditText) findViewById(R.id.EditTextPassword);
-    	
     	myAutostart.setChecked(m_myPrefs.getAutostart());
 //        myTimeout.setText	(String.valueOf(m_myPrefs.getPollInterval()));
         myNotifyRing.setChecked(m_myPrefs.getNotifyRing());
@@ -193,16 +167,7 @@ public class PreferencesAct extends Activity
         mySpinnerSMS.setSelection(m_myPrefs.getEffectSMS());
         mySpinnerMail.setSelection(m_myPrefs.getEffectMail());
         mySpinnerIM.setSelection(m_myPrefs.getEffectIM());
-        mySpinnerSleep.setSelection(m_myPrefs.getEffectSleep());
-        
-        myAutologon.setChecked(m_myPrefs.getXmppConnect());
-        myConnected.setChecked(XmppClient.getInstance(this).isConnected());
-        myHost.setText(String.valueOf(m_myPrefs.getHost()));
-        myPort.setText(String.valueOf(m_myPrefs.getPort()));
-        myService.setText(String.valueOf(m_myPrefs.getService()));
-        myUsername.setText(String.valueOf(m_myPrefs.getUsername()));
-        myPassword.setText(String.valueOf(m_myPrefs.getPassword()));
-        
+        mySpinnerSleep.setSelection(m_myPrefs.getEffectSleep());       
     }
     
     /** persist changed preferences */
@@ -225,14 +190,6 @@ public class PreferencesAct extends Activity
     	Spinner mySpinnerIM 	= (Spinner) findViewById(R.id.SpinnerIM);
     	Spinner mySpinnerSleep 	= (Spinner) findViewById(R.id.SpinnerSleep);
 
-    	CheckBox myAutologon	= (CheckBox) findViewById(R.id.CheckBoxAutologon);
-    	EditText myHost			= (EditText) findViewById(R.id.EditTextHost);
-    	EditText myPort			= (EditText) findViewById(R.id.EditTextPort);
-    	EditText myService		= (EditText) findViewById(R.id.EditTextService);
-    	EditText myUsername		= (EditText) findViewById(R.id.EditTextUsername);
-    	EditText myPassword		= (EditText) findViewById(R.id.EditTextPassword);
-
-    	
     	m_myPrefs.setAutostart(myAutostart.isChecked());
 //    	m_myPrefs.setPollInterval(Integer.parseInt(myTimeout.getText().toString()));
     	
@@ -249,13 +206,6 @@ public class PreferencesAct extends Activity
     	m_myPrefs.setEffectMail(mySpinnerMail.getSelectedItemPosition());
     	m_myPrefs.setEffectIM(mySpinnerIM.getSelectedItemPosition());
     	m_myPrefs.setEffectSleep(mySpinnerSleep.getSelectedItemPosition());
-    	
-    	m_myPrefs.setXmppConnect(myAutologon.isChecked());
-    	m_myPrefs.setHost(myHost.getText().toString());
-    	m_myPrefs.setPort(Integer.parseInt(myPort.getText().toString()));
-    	m_myPrefs.setService(myService.getText().toString());
-    	m_myPrefs.setUsername(myUsername.getText().toString());
-    	m_myPrefs.setPassword(myPassword.getText().toString());
     	
     	m_myPrefs.save();	
     }

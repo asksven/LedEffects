@@ -3,18 +3,6 @@ package com.asksven.ledeffects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.ConnectionListener;
-import org.jivesoftware.smack.PacketListener;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.filter.MessageTypeFilter;
-import org.jivesoftware.smack.filter.PacketFilter;
-import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.packet.Packet;
-import org.jivesoftware.smack.packet.Presence;
-import org.jivesoftware.smack.util.StringUtils;
-
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
@@ -22,11 +10,9 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import android.os.Handler;
 
 import com.asksven.ledeffects.data.Preferences;
 import com.asksven.ledeffects.manager.EffectsFassade;
-import com.asksven.ledeffects.xmmp.XmppClient;
 
 /**
  * The LedEffects Service keeps running even if the main Activity is not displayed/never called
@@ -43,14 +29,8 @@ public class EffectsService extends Service
 	/** the timer update freq. in ms */
 	private long m_lUpdateInterval = 30*1000;
 	
-	/** should we connect xmpp? */
-	boolean m_bXmppConnect = false;
-	
 	private BatteryBroadcastHandler m_oBatHandler = null;
 	private boolean m_bRegistered = false;
-	
-	/** Optional XMPP client managed by service */
-	private XmppClient m_myXmppClient;
 	
     /**
      * Class for clients to access.  Because we know this service always
@@ -82,7 +62,6 @@ public class EffectsService extends Service
             registerReceiver(m_oBatHandler, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             m_bRegistered = true;
         }
-        m_myXmppClient = XmppClient.getInstance(this);
     }
 
     /** 
@@ -92,12 +71,6 @@ public class EffectsService extends Service
     {
         // read the Preferences upon start
     	loadPrefs();
-    	
-    	// connect to xmpp
-    	if (m_bXmppConnect)
-    	{
-    		m_myXmppClient.connect();
-    	}
     	
     	// run the timer
 // timer's not needed    	startTimer();
@@ -120,8 +93,6 @@ public class EffectsService extends Service
         unregisterReceiver(m_oBatHandler);
 
         stopTimer();
-        
-        m_myXmppClient.disconnect();
     }
 
     @Override
@@ -176,7 +147,6 @@ public class EffectsService extends Service
     {
         Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
         m_lUpdateInterval 	= myPrefs.getPollInterval() * 1000; // as timer is in ms
-        m_bXmppConnect = myPrefs.getXmppConnect();
         myPrefs.applySleep();
 
     }
