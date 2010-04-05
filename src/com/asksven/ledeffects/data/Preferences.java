@@ -28,9 +28,6 @@ public class Preferences
 	private boolean m_bNotifySMS;
 	private boolean m_bNotifyMail;
 	private boolean m_bNotifyIM;
-	private boolean m_bApplySleep;
-	
-	private boolean m_bXmppConnect;
 	
 	private int m_iEffectRing;
 	private int m_iEffectCharge;
@@ -115,25 +112,6 @@ public class Preferences
 		m_bNotifyIM = bNotify;
 	}
 	
-	public boolean getApplySleep()
-	{
-		return m_bApplySleep;
-	}
-
-	public void setApplySleep(boolean bApply)
-	{
-		m_bApplySleep = bApply;
-	}
-
-	public boolean getXmppConnect()
-	{
-		return m_bXmppConnect;
-	}
-
-	public void setXmppConnect(boolean bApply)
-	{
-		m_bXmppConnect = bApply;
-	}
 
 	public int getEffectRing()
 	{
@@ -277,9 +255,6 @@ public class Preferences
 	    setNotifySMS(m_mySettings.getBoolean("notifySMS", false));
 	    setNotifyMail(m_mySettings.getBoolean("notifyMail", false));
 	    setNotifyIM(m_mySettings.getBoolean("notifyIM", false));
-	    setApplySleep(m_mySettings.getBoolean("applySleep", false));
-	    
-	    setXmppConnect((m_mySettings.getBoolean("xmppConnect", false)));
 	    
 	    setEffectRing(m_mySettings.getInt("effectRing", 0));	    
 	    setEffectCharge(m_mySettings.getInt("effectCharge", 0));
@@ -308,7 +283,6 @@ public class Preferences
 	    editor.putBoolean("notifySMS", getNotifySMS());
 	    editor.putBoolean("notifyMail", getNotifyMail());
 	    editor.putBoolean("notifyIM", getNotifyIM());
-	    editor.putBoolean("applySleep", getApplySleep());
 	    
 	    editor.putInt("effectRing", getEffectRing());
 	    editor.putInt("effectCharge", getEffectCharge());
@@ -332,10 +306,7 @@ public class Preferences
 	public void applySleep()
 	{
 	    // write to kernel if sleep is to be applied
-	    if (getApplySleep())
-	    {
-	    	EffectsFassade.getInstance().writeSleepEffect(getEffectSleep());
-	    }
+    	EffectsFassade.getInstance().writeSleepEffect(getEffectSleep());
 
 	}
 	

@@ -137,14 +137,11 @@ public class PreferencesAct extends Activity
     {
 
     	CheckBox myAutostart	= (CheckBox) findViewById(R.id.CheckBoxAutostart);
-//    	EditText myTimeout		= (EditText) findViewById(R.id.EditTextTimeout);
     	CheckBox myNotifyRing	= (CheckBox) findViewById(R.id.CheckBoxNotifyRing);
     	CheckBox myNotifyCharge	= (CheckBox) findViewById(R.id.CheckBoxNotifyCharge);
     	CheckBox myNotifySMS	= (CheckBox) findViewById(R.id.CheckBoxNotifySMS);
     	CheckBox myNotifyMail	= (CheckBox) findViewById(R.id.CheckBoxNotifyMail);
     	CheckBox myNotifyIM		= (CheckBox) findViewById(R.id.CheckBoxNotifyMail);
-    	CheckBox myApplySleep	= (CheckBox) findViewById(R.id.CheckBoxApplySleep);
-    	
     	
     	Spinner mySpinnerRing 	= (Spinner) findViewById(R.id.SpinnerRing);
     	Spinner mySpinnerCharge = (Spinner) findViewById(R.id.SpinnerCharge);
@@ -154,13 +151,11 @@ public class PreferencesAct extends Activity
     	Spinner mySpinnerSleep 	= (Spinner) findViewById(R.id.SpinnerSleep);
     	
     	myAutostart.setChecked(m_myPrefs.getAutostart());
-//        myTimeout.setText	(String.valueOf(m_myPrefs.getPollInterval()));
         myNotifyRing.setChecked(m_myPrefs.getNotifyRing());
         myNotifyCharge.setChecked(m_myPrefs.getNotifyCharge());
         myNotifySMS.setChecked(m_myPrefs.getNotifySMS());
         myNotifyMail.setChecked(m_myPrefs.getNotifyMail());
         myNotifyIM.setChecked(m_myPrefs.getNotifyIM());
-        myApplySleep.setChecked(m_myPrefs.getApplySleep());
         
         mySpinnerRing.setSelection(m_myPrefs.getEffectRing());
         mySpinnerCharge.setSelection(m_myPrefs.getEffectCharge());
@@ -175,13 +170,11 @@ public class PreferencesAct extends Activity
     {
 
     	CheckBox myAutostart	= (CheckBox) findViewById(R.id.CheckBoxAutostart);
-//    	EditText myTimeout		= (EditText) findViewById(R.id.EditTextTimeout);
     	CheckBox myNotifyRing	= (CheckBox) findViewById(R.id.CheckBoxNotifyRing);
     	CheckBox myNotifyCharge	= (CheckBox) findViewById(R.id.CheckBoxNotifyCharge);
     	CheckBox myNotifySMS	= (CheckBox) findViewById(R.id.CheckBoxNotifySMS);
     	CheckBox myNotifyMail	= (CheckBox) findViewById(R.id.CheckBoxNotifyMail);
     	CheckBox myNotifyIM	= (CheckBox) findViewById(R.id.CheckBoxNotifyIM);
-    	CheckBox myApplySleep	= (CheckBox) findViewById(R.id.CheckBoxApplySleep);
 
     	Spinner mySpinnerRing 	= (Spinner) findViewById(R.id.SpinnerRing);
     	Spinner mySpinnerCharge = (Spinner) findViewById(R.id.SpinnerCharge);
@@ -191,14 +184,12 @@ public class PreferencesAct extends Activity
     	Spinner mySpinnerSleep 	= (Spinner) findViewById(R.id.SpinnerSleep);
 
     	m_myPrefs.setAutostart(myAutostart.isChecked());
-//    	m_myPrefs.setPollInterval(Integer.parseInt(myTimeout.getText().toString()));
     	
     	m_myPrefs.setNotifyRing(myNotifyRing.isChecked());
     	m_myPrefs.setNotifyCharge(myNotifyCharge.isChecked());
     	m_myPrefs.setNotifySMS(myNotifySMS.isChecked());
     	m_myPrefs.setNotifyMail(myNotifyMail.isChecked());
     	m_myPrefs.setNotifyIM(myNotifyIM.isChecked());
-    	m_myPrefs.setApplySleep(myApplySleep.isChecked());
     	
     	m_myPrefs.setEffectRing(mySpinnerRing.getSelectedItemPosition());
     	m_myPrefs.setEffectCharge(mySpinnerCharge.getSelectedItemPosition());
@@ -208,6 +199,7 @@ public class PreferencesAct extends Activity
     	m_myPrefs.setEffectSleep(mySpinnerSleep.getSelectedItemPosition());
     	
     	m_myPrefs.save();	
+    	m_myPrefs.applySleep();
     }
 }
 
