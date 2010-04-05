@@ -69,7 +69,7 @@
 		<TextView android:text="Sleep" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 		<LinearLayout android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
 			<Spinner android:id="@+id/SpinnerSleep" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="180px"></Spinner>
-			<CheckBox android:text="Apply" android:id="@+id/CheckBoxApplySleep" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+			<CheckBox android:text="Dummy" android:visibility="gone" android:id="@+id/CheckBoxDummy" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
 			<Button android:text="Test" android:id="@+id/ButtonTestSleep" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
 		</LinearLayout>
 	</LinearLayout>
