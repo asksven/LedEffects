@@ -30,7 +30,7 @@ public class BroadcastHandler extends BroadcastReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
-		Preferences myPrefs = new Preferences(context);
+		Preferences myPrefs = Preferences.getInstance(context);
         boolean bAutostart = myPrefs.getAutostart();
         EffectsFassade myEffectsMgr = EffectsFassade.getInstance();
         

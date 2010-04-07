@@ -12,7 +12,7 @@ public class Effect
 	private int  m_iEffect 			= 0;
 	
 	/** temporary or permanent effect */
-	private boolean m_bNotification = false;
+	private boolean m_bTimed = false;
 	
 	/** the effect's description */
 	private String m_strText 		= "";
@@ -20,15 +20,34 @@ public class Effect
 	/** true if a notification should be displayed in the status bar */
 	private boolean m_bNotify		= false;
 	
-	/** public cctor */
-	public Effect(int iEffect, boolean bNotification, String strText, boolean bNotify)
+	/** true if vibration should be applied */
+	private boolean m_bVibrate		= false;
+	
+	/** non empty if a sound should be played */
+	private String m_strSound 		= "";
+	
+	/** public cctor with basic options */
+	public Effect(int iEffect, boolean bTimed, String strText, boolean bNotify)
 	{
 		m_iEffect 		= iEffect;
-		m_bNotification = bNotification;
+		m_bTimed 		= bTimed;
 		m_strText		= strText;
 		m_bNotify		= bNotify;
-		
+		m_bVibrate		= false;
+		m_strSound		= "";		
 	}
+
+	/** public cctor with extended options */
+	public Effect(int iEffect, boolean bTimed, String strText, boolean bNotify, boolean bVibrate, String strSound)
+	{
+		m_iEffect 		= iEffect;
+		m_bTimed 		= bTimed;
+		m_strText		= strText;
+		m_bNotify		= bNotify;
+		m_bVibrate		= bVibrate;
+		m_strSound		= strSound;	
+	}
+
 	
 	/** returns the effect key */
 	public int getEffect()
@@ -39,7 +58,7 @@ public class Effect
 	/** returns whether the notification should be applied only for a short time or permanently till the state changes */
 	public boolean getTimed()
 	{
-		return m_bNotification;
+		return m_bTimed;
 	}
 	
 	/** returns the description of the notification */
@@ -53,4 +72,17 @@ public class Effect
 	{
 		return m_bNotify;
 	}
+	
+	/** true if vibration is associated to the effect */
+	public boolean getVibrate()
+	{
+		return m_bVibrate;
+	}
+	
+	/** true if sound is associated to the effect */
+	public String getSound()
+	{
+		return m_strSound;
+	}
+
 }

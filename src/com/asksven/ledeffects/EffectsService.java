@@ -112,7 +112,7 @@ public class EffectsService extends Service
     {
 		// Apply the effect for current state
     	EffectsFassade.getInstance().doEffect(this);
-    	Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
+    	Preferences myPrefs = Preferences.getInstance(this);
     }
     
     /**
@@ -145,7 +145,7 @@ public class EffectsService extends Service
      */
     private void loadPrefs()
     {
-        Preferences myPrefs = new Preferences(this.getSharedPreferences(Preferences.PREFS_NAME, 0));
+        Preferences myPrefs = Preferences.getInstance(this);
         m_lUpdateInterval 	= myPrefs.getPollInterval() * 1000; // as timer is in ms
         myPrefs.applySleep();
 

@@ -1,5 +1,7 @@
 package com.asksven.ledeffects.manager;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,6 +10,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Vibrator;
 import android.util.Log;
 
 import com.asksven.ledeffects.MainAct;
@@ -40,7 +45,7 @@ public class EffectsFassade
 	/** apply the effect following the current state */
 	public void doEffect(Context ctx)
 	{
-		Preferences myPrefs = new Preferences(ctx.getSharedPreferences(Preferences.PREFS_NAME, 0));
+		Preferences myPrefs = Preferences.getInstance(ctx);
     	Effect oEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
 		boolean bChanged = EffectManager.doEffect(oEffect.getEffect());
 		Log.d(getClass().getSimpleName(), "Applying effect " + oEffect.getEffect());
@@ -67,15 +72,53 @@ public class EffectsFassade
 					        }
 					     }, 5*1000);
 			}
+			
+			// What time is it now?
+			Calendar myNow = Calendar.getInstance();
+			myNow.setTime(new Date(System.currentTimeMillis()));
+			// vibrate ?
+			if (oEffect.getVibrate())
+			{
+				// check if vibration is allowed at current time
+				if (!myPrefs.getVibrateOff() || (!myPrefs.getVibrateOffTimespan().isBetween(myNow)))
+				{
+					Vibrator v = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
+					// 2. Vibrate in a Pattern with 500ms on, 300ms off for 2 times  
+					long[] pattern = { 0, 100, 300, 100, 500, 150 };  
+					v.vibrate(pattern, -1);
+				}
+			}
+			
+			// play sound ?
+			if (!oEffect.getSound().equals(""))
+			{
+				// check if sound is allowed at current time
+				if (!myPrefs.getSoundOff() || (!myPrefs.getSoundOffTimespan().isBetween(myNow)))
+				{
+					MediaPlayer myPlayer = new MediaPlayer();
+					try
+					{
+						Uri myNewUri = Uri.parse(oEffect.getSound());
+						myPlayer.setDataSource(ctx, myNewUri);
+						myPlayer.prepare();
+						myPlayer.start();
+					}
+					catch (Exception e)
+					{
+						Log.d(getClass().getSimpleName(), e.getMessage());
+					}
+				}
+				
+			}
 		}
 		
 	}
 
-	/** plays an effect for a limitied time */
+	/** plays a visual effect for a limited time */
 	public void playEffect(Context ctx, int iEffect, int iDuration)
 	{
 		EffectManager.doEffect(iEffect);
-		// todo: add timer
+
 		// create a timer to end the effect
     	Timer timer = new Timer();
     	
@@ -89,6 +132,52 @@ public class EffectsFassade
 			        }
 			     }, 5*1000);
 	}
+
+	/** plays a visual effect together with vibration and sound for a limited time */
+	public void playEffect(Context ctx, int iEffect, int iDuration, boolean bVibrate, String strSound)
+	{
+		EffectManager.doEffect(iEffect);
+
+		// create a timer to end the effect
+    	Timer timer = new Timer();
+    	
+    	timer.schedule(
+    			new TimerTask()
+    			{
+			        public void run()
+			        {
+			        	
+			        	EffectManager.doEffect(0);
+			        }
+			     }, 5*1000);
+
+    	// vibrate ?
+		if (bVibrate)
+		{
+			Vibrator v = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
+			long[] pattern = { 0, 100, 300, 100, 500, 150 };  
+			v.vibrate(pattern, -1); 
+		}
+		
+		// play sound ?
+		if (!strSound.equals(""))
+		{
+			MediaPlayer myPlayer = new MediaPlayer();
+			try
+			{
+				Uri myNewUri = Uri.parse(strSound);
+				myPlayer.setDataSource(ctx, myNewUri);
+				myPlayer.prepare();
+				myPlayer.start();
+			}
+			catch (Exception e)
+			{
+				Log.d(getClass().getSimpleName(), e.getMessage());
+			}
+			
+		}
+    	
+	}
 	
 	/** persists a given effect to be applied when phone goes to sleep */
 	public void writeSleepEffect(int iEffect)
@@ -101,7 +190,7 @@ public class EffectsFassade
 	public void clearAllNotifications(Context ctx)
 	{
 		Log.d(getClass().getSimpleName(), "Clearing all temporary notifications and apply permanent effects");
-        Preferences myPrefs = new Preferences(ctx.getSharedPreferences(Preferences.PREFS_NAME, 0));
+        Preferences myPrefs = Preferences.getInstance(ctx);
         EffectsState.getInstance().setNotifyReadAll();
         Effect oEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
         EffectManager.doEffect(oEffect.getEffect());

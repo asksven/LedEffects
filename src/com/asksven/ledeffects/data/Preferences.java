@@ -9,7 +9,7 @@ import com.asksven.ledeffects.manager.EffectsState;
 
 
 /**
- * Value holder for Preferences
+ * Singleton value holder for Preferences
  * @author sven
  *
  */
@@ -17,8 +17,13 @@ public class Preferences
 {
 	public static final String PREFS_NAME = "LedEffectsPrefs";
 	
+	private static Preferences m_myPrefs; 
+	
 	/** Prefs handler */
 	SharedPreferences m_mySettings;
+	
+	/** initialized already ? */
+	boolean m_bInitDone = false;
 	
 	/** shall service be started automatically upon boot */
 	private boolean m_bAutostart;
@@ -29,6 +34,21 @@ public class Preferences
 	private boolean m_bNotifyMail;
 	private boolean m_bNotifyIM;
 	
+	private boolean m_bVibrateRing;
+	private boolean m_bVibrateSMS;
+	private boolean m_bVibrateMail;
+	private boolean m_bVibrateIM;
+
+	private boolean m_bSoundRing;
+	private boolean m_bSoundSMS;
+	private boolean m_bSoundMail;
+	private boolean m_bSoundIM;
+	
+	private String m_strSoundRing;
+	private String m_strSoundSMS;
+	private String m_strSoundMail;
+	private String m_strSoundIM;
+	
 	private int m_iEffectRing;
 	private int m_iEffectCharge;
 	private int m_iEffectSMS;
@@ -36,13 +56,12 @@ public class Preferences
 	private int m_iEffectIM;
 	private int m_iEffectSleep;
 	
-	private boolean m_bAutoconnect;
-	private String m_strHost;
-	private int m_iPort;
-	private String m_strService;
-	private String m_strUsername;
-	private String m_strPassword;
-
+	private boolean m_bSilenceVibration 	= false;
+	private boolean m_bSilenceSound			= false;
+	private TimeSpan m_myVibrationOffTime;
+	private TimeSpan m_mySoundOffTime;
+	
+	
 	/** Timer frequency in seconds*/
 	private int m_iPollInterval;
 
@@ -63,6 +82,7 @@ public class Preferences
 		m_bAutostart = autostart;
 	}
 
+	/** getters / setter for notifying effects */
 	public boolean getNotifyRing()
 	{
 		return m_bNotifyRing;
@@ -110,6 +130,129 @@ public class Preferences
 	public void setNotifyIM(boolean bNotify)
 	{
 		m_bNotifyIM = bNotify;
+	}
+
+	/** getters / setter for vibrate effects */
+	public boolean getVibrateRing()
+	{
+		return m_bVibrateRing;
+	}
+	
+	public void setVibrateRing(boolean bNotify)
+	{
+		m_bVibrateRing = bNotify;
+	}
+	
+	public boolean getVibrateSMS()
+	{
+		return m_bVibrateSMS;
+	}
+	
+	public void setVibrateSMS(boolean bNotify)
+	{
+		m_bVibrateSMS = bNotify;
+	}
+	
+	public boolean getVibrateMail()
+	{
+		return m_bVibrateMail;
+	}
+	
+	public void setVibrateMail(boolean bNotify)
+	{
+		m_bVibrateMail = bNotify;
+	}
+	
+	public boolean getVibrateIM()
+	{
+		return m_bVibrateIM;
+	}
+	
+	public void setVibrateIM(boolean bNotify)
+	{
+		m_bVibrateIM = bNotify;
+	}
+
+	/** getters / setter for sound effects */
+	public boolean getPlaySoundRing()
+	{
+		return m_bSoundRing;
+	}
+	
+	public void setPlaySoundRing(boolean bNotify)
+	{
+		m_bSoundRing = bNotify;
+	}
+	
+	public boolean getPlaySoundSMS()
+	{
+		return m_bSoundSMS;
+	}
+	
+	public void setPlaySoundSMS(boolean bNotify)
+	{
+		m_bSoundSMS = bNotify;
+	}
+	
+	public boolean getPlaySoundMail()
+	{
+		return m_bSoundMail;
+	}
+	
+	public void setPlaySoundMail(boolean bNotify)
+	{
+		m_bSoundMail = bNotify;
+	}
+	
+	public boolean getPlaySoundIM()
+	{
+		return m_bSoundIM;
+	}
+	
+	public void setPlaySoundIM(boolean bNotify)
+	{
+		m_bSoundIM = bNotify;
+	}
+
+	/** getters / setter for sound effects */
+	public String getSoundRing()
+	{
+		return m_strSoundRing;
+	}
+	
+	public void setSoundRing(String strNotify)
+	{
+		m_strSoundRing = strNotify;
+	}
+	
+	public String getSoundSMS()
+	{
+		return m_strSoundSMS;
+	}
+	
+	public void setSoundSMS(String strNotify)
+	{
+		m_strSoundSMS = strNotify;
+	}
+	
+	public String getSoundMail()
+	{
+		return m_strSoundMail;
+	}
+	
+	public void setSoundMail(String strNotify)
+	{
+		m_strSoundMail = strNotify;
+	}
+	
+	public String getSoundIM()
+	{
+		return m_strSoundIM;
+	}
+	
+	public void setSoundIM(String strNotify)
+	{
+		m_strSoundIM = strNotify;
 	}
 	
 
@@ -173,77 +316,86 @@ public class Preferences
 		m_iEffectSleep = iPos;
 	}
 
-	public String getHost()
+	public void setVibrateOff(boolean bValue)
 	{
-		return m_strHost;
+		m_bSilenceVibration = bValue;
 	}
 
-	public void setHost(String strHost)
+	public void setVibrateOffTimespan(int iStartIndex, int iEndIndex)
 	{
-		m_strHost = strHost;
+		m_myVibrationOffTime = new TimeSpan(iStartIndex, 0, iEndIndex, 00);
 	}
 
-	public String getService()
+	public void setSoundOffTimespan(int iStartIndex, int iEndIndex)
 	{
-		return m_strService;
+		m_mySoundOffTime = new TimeSpan(iStartIndex, 0, iEndIndex, 00);
 	}
 
-	public void setService(String strService)
+	public TimeSpan getVibrateOffTimespan()
 	{
-		m_strService = strService;
+		return m_myVibrationOffTime;
 	}
 
-	public String getUsername()
+	public TimeSpan getSoundOffTimespan()
 	{
-		return m_strUsername;
-	}
-
-	public void setUsername(String strUsername)
-	{
-		m_strUsername = strUsername;
-	}
-
-	public String getPassword()
-	{
-		return m_strPassword;
-	}
-
-	public void setPassword(String strPassword)
-	{
-		m_strPassword = strPassword;
-	}
-
-	public int getPort()
-	{
-		return m_iPort;
-	}
-
-	public void setPort(int iPort)
-	{
-		m_iPort = iPort;
+		return m_mySoundOffTime;
 	}
 	
-	public Preferences(Activity myActivity)
+	public void setSoundOff(boolean bValue)
+	{
+		m_bSilenceSound = bValue;
+	}
+
+	public boolean getVibrateOff()
+	{
+		return m_bSilenceVibration;
+	}
+
+	public boolean getSoundOff()
+	{
+		return m_bSilenceSound;
+	}
+
+	
+	private Preferences(Activity myActivity)
 	{
 		m_mySettings = myActivity.getSharedPreferences(PREFS_NAME, 0);
 		this.init();
 	}
 	
-	public Preferences(Context myContext)
+	private Preferences(Context myContext)
 	{
 		m_mySettings = myContext.getSharedPreferences(PREFS_NAME, 0);
 		this.init();
 	}
 
-	public Preferences(SharedPreferences myPrefs)
+	private Preferences(SharedPreferences myPrefs)
 	{
 		m_mySettings = myPrefs;
 		this.init();
 	}
 	
+	/** return singleton */
+	public static Preferences getInstance(Context ctx)
+	{
+		if (m_myPrefs == null)
+		{
+			m_myPrefs = new Preferences(ctx);
+		}
+		return m_myPrefs;
+	}
+	
 	/** initialize value holder */
 	private void init()
 	{
+		// init only once
+		if (m_bInitDone)
+		{
+			return;
+		}
+		
+		m_bInitDone = true;
+		
 	    int iPollInterval 	= m_mySettings.getInt("pollInterval", 30);
 	    boolean bAutostart 	= m_mySettings.getBoolean("autostart", false);
 	    
@@ -256,6 +408,21 @@ public class Preferences
 	    setNotifyMail(m_mySettings.getBoolean("notifyMail", false));
 	    setNotifyIM(m_mySettings.getBoolean("notifyIM", false));
 	    
+	    setVibrateRing(m_mySettings.getBoolean("vibrateRing", false));
+	    setVibrateSMS(m_mySettings.getBoolean("vibrateSMS", false));
+	    setVibrateMail(m_mySettings.getBoolean("vibrateMail", false));
+	    setVibrateIM(m_mySettings.getBoolean("vibrateIM", false));
+
+	    setPlaySoundRing(m_mySettings.getBoolean("playSoundRing", false));
+	    setPlaySoundSMS(m_mySettings.getBoolean("playSoundSMS", false));
+	    setPlaySoundMail(m_mySettings.getBoolean("playSoundMail", false));
+	    setPlaySoundIM(m_mySettings.getBoolean("playSoundIM", false));
+
+	    setSoundRing(m_mySettings.getString("soundRing", ""));
+	    setSoundSMS(m_mySettings.getString("soundSMS", ""));
+	    setSoundMail(m_mySettings.getString("soundMail", ""));
+	    setSoundIM(m_mySettings.getString("soundIM", ""));
+
 	    setEffectRing(m_mySettings.getInt("effectRing", 0));	    
 	    setEffectCharge(m_mySettings.getInt("effectCharge", 0));
 	    setEffectSMS(m_mySettings.getInt("effectSMS", 0));
@@ -263,11 +430,11 @@ public class Preferences
 	    setEffectIM(m_mySettings.getInt("effectIM", 0));
 	    setEffectSleep(m_mySettings.getInt("effectSleep", 3));
 	    
-		setHost(m_mySettings.getString("xmppHost", "talk.google.com"));
-		setPort(m_mySettings.getInt("xmppPort", 5222));
-		setService(m_mySettings.getString("xmppService", "gmail.com"));
-		setUsername(m_mySettings.getString("xmppUsername", "username@googlemail.com"));
-		setPassword(m_mySettings.getString("xmppPassword", ""));
+		setVibrateOff(m_mySettings.getBoolean("vibrateOff", false));
+		setSoundOff(m_mySettings.getBoolean("SoundOff", false));
+
+		setVibrateOffTimespan(m_mySettings.getInt("vibrateOffFrom", 0), m_mySettings.getInt("vibrateOffTo", 0));
+		setSoundOffTimespan(m_mySettings.getInt("soundOffFrom", 0), m_mySettings.getInt("SoundOffTo", 0));
 	}
 	
 	public void save()
@@ -284,6 +451,21 @@ public class Preferences
 	    editor.putBoolean("notifyMail", getNotifyMail());
 	    editor.putBoolean("notifyIM", getNotifyIM());
 	    
+	    editor.putBoolean("vibrateRing", getVibrateRing());
+	    editor.putBoolean("vibrateSMS", getVibrateSMS());
+	    editor.putBoolean("vibrateMail", getVibrateMail());
+	    editor.putBoolean("vibrateIM", getVibrateIM());
+
+	    editor.putBoolean("playSoundRing", getPlaySoundRing());
+	    editor.putBoolean("playSoundSMS", getPlaySoundSMS());
+	    editor.putBoolean("playSoundMail", getPlaySoundMail());
+	    editor.putBoolean("playSoundIM", getPlaySoundIM());
+	    
+	    editor.putString("soundRing", getSoundRing());
+	    editor.putString("soundSMS", getSoundSMS());
+	    editor.putString("soundMail", getSoundMail());
+	    editor.putString("soundIM", getSoundIM());
+
 	    editor.putInt("effectRing", getEffectRing());
 	    editor.putInt("effectCharge", getEffectCharge());
 	    editor.putInt("effectSMS", getEffectSMS());
@@ -291,12 +473,14 @@ public class Preferences
 	    editor.putInt("effectIM", getEffectIM());
 	    editor.putInt("effectSleep", getEffectSleep());
 
-		editor.putString("xmppHost", getHost());
-		editor.putInt("xmppPort", getPort());
-		editor.putString("xmppService", getService());
-		editor.putString("xmppUsername", getUsername());
-		editor.putString("xmppPassword", getPassword());
+	    editor.putBoolean("vibrateOff", getVibrateOff());
+	    editor.putBoolean("SoundOff", getSoundOff());
 	    
+	    editor.putInt("vibrateOffFrom", getVibrateOffTimespan().getFromHours());
+	    editor.putInt("vibrateOffTo", getVibrateOffTimespan().getToHours());
+	    editor.putInt("soundOffFrom", getSoundOffTimespan().getFromHours());
+	    editor.putInt("soundOffTo", getSoundOffTimespan().getToHours());
+
 	    applySleep();
 	    
 	    editor.commit();
@@ -328,28 +512,28 @@ public class Preferences
 		switch (iState)
 		{
 			case EffectsState.STATE_NONE :
-				return new Effect(0, false, "", false);
+				return new Effect(0, false, "", false, false, "");
 
 			case EffectsState.STATE_CHARGING :
-				return new Effect(m_iEffectCharge, false, "Charging battery", getNotifyCharge());
+				return new Effect(m_iEffectCharge, false, "Charging battery", getNotifyCharge(), false, "");
 
 			case EffectsState.STATE_RINGING :
-				return new Effect(m_iEffectRing, false, "Incoming call", getNotifyRing());
+				return new Effect(m_iEffectRing, false, "Incoming call", getNotifyRing(), getVibrateRing(), getSoundRing());
 
 			case EffectsState.NOTIFY_SMS :
-				return new Effect(m_iEffectSMS, true, "Incoming SMS", getNotifySMS());
+				return new Effect(m_iEffectSMS, true, "Incoming SMS", getNotifySMS(), getVibrateSMS(), getSoundSMS());
 
 			case EffectsState.NOTIFY_IM :
-				return new Effect(m_iEffectIM, true, "Incoming IM", getNotifyIM());
+				return new Effect(m_iEffectIM, true, "Incoming IM", getNotifyIM(), getVibrateIM(), getSoundIM());
 
 			case EffectsState.NOTIFY_MAIL :
-				return new Effect(m_iEffectMail, true, "Incoming mail", getNotifyMail());
+				return new Effect(m_iEffectMail, true, "Incoming mail", getNotifyMail(), getVibrateMail(), getSoundMail());
 				
 			case EffectsState.STATE_SLEEPING :
-				return new Effect(m_iEffectSleep, false, "Sleeping", false);
+				return new Effect(m_iEffectSleep, false, "Sleeping", false, false, "");
 
 			default :
-				return new Effect(0, false, "", false);		
+				return new Effect(0, false, "", false, false, "");		
 		}
 	}
 }
