@@ -22,7 +22,8 @@ public class MainAct extends Activity
     private boolean m_bIsStarted;
     
     static final int DIALOG_PREFERENCES_ID 	= 0;
-    static final int DIALOG_ABOUT_ID 	= 1;
+    static final int DIALOG_ABOUT_ID 		= 1;
+    static final int DIALOG_SETTINGS_ID 	= 2;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class MainAct extends Activity
      */
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        menu.add("Settings");
         menu.add("Preferences");
         menu.add("About");
         SubMenu myGroup = menu.addSubMenu("More...");
@@ -92,6 +94,13 @@ public class MainAct extends Activity
      */
     public boolean onOptionsItemSelected(MenuItem item)
     {
+    	if (item.getTitle().equals("Settings"))
+    	{
+    		Intent intent = new Intent(this, com.asksven.ledeffects.SettingsAct.class);
+   			startActivityForResult(intent, DIALOG_SETTINGS_ID);
+    		return true;
+    	}
+
     	if (item.getTitle().equals("Preferences"))
     	{
     		Intent intent = new Intent(this, com.asksven.ledeffects.PreferencesAct.class);
