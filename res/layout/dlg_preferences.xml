@@ -6,22 +6,6 @@
   android:orientation="vertical">
 
 
-<LinearLayout android:id="@+id/LinearLayout05" android:layout_width="fill_parent" android:layout_height="wrap_content">
-	<CheckBox android:text="Autostart Service" android:id="@+id/CheckBoxAutostart" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
-</LinearLayout>
-
-
-<!-- 
-<LinearLayout android:id="@+id/LinearLayout03" android:layout_width="fill_parent" android:layout_height="wrap_content">
-	<TextView android:text="Timeout (s)" android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-	<EditText android:text="" android:id="@+id/EditTextTimeout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></EditText>
-</LinearLayout>
- -->
-<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="fill_parent" android:layout_height="wrap_content">
-
-
-</LinearLayout>
-
 
 <LinearLayout android:id="@+id/LinearLayout04" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center_horizontal">
 	<Button android:text="OK" android:id="@+id/ButtonOK" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="100px"></Button>
@@ -72,7 +56,7 @@
 			<CheckBox android:text="Notify" android:id="@+id/CheckBoxNotifyMail" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
 			<CheckBox android:text="Vibrate" android:id="@+id/CheckBoxVibrateMail" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
 			<CheckBox android:text="Sound" android:id="@+id/CheckBoxSoundMail" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
-			<Button android:text="Pick" android:id="@+id/ButtonPickMail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px"></Button>			
+			<Button android:text="Pick" android:id="@+id/ButtonPickMail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="80px"></Button>			
 		</LinearLayout>			
 		 	
 		<TextView android:text="IM" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
@@ -95,12 +79,12 @@
 
 		<TextView android:text="Silence" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 		<LinearLayout android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-			<CheckBox android:text="Vibration off" android:id="@+id/CheckBoxVibrationOff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="200px"></CheckBox>
+			<CheckBox android:text="Vibr. off" android:id="@+id/CheckBoxVibrationOff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="180px"></CheckBox>
 			<Spinner android:id="@+id/SpinnerVibrationOffFrom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="120px"></Spinner>
 			<Spinner android:id="@+id/SpinnerVibrationOffTo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="120px"></Spinner>
 		</LinearLayout>
 		<LinearLayout android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-			<CheckBox android:text="Sound off" android:id="@+id/CheckBoxSoundOff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="200px"></CheckBox>
+			<CheckBox android:text="Sound off" android:id="@+id/CheckBoxSoundOff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="180px"></CheckBox>
 			<Spinner android:id="@+id/SpinnerSoundOffFrom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="120px"></Spinner>
 			<Spinner android:id="@+id/SpinnerSoundOffTo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="120px"></Spinner>
 		</LinearLayout>
