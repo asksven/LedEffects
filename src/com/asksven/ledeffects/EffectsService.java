@@ -1,8 +1,5 @@
 package com.asksven.ledeffects;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
@@ -12,7 +9,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.asksven.ledeffects.data.Preferences;
-import com.asksven.ledeffects.manager.EffectsFassade;
 
 /**
  * The LedEffects Service keeps running even if the main Activity is not displayed/never called
@@ -24,11 +20,7 @@ import com.asksven.ledeffects.manager.EffectsFassade;
 public class EffectsService extends Service
 {
 	private NotificationManager mNM;
-	private Timer timer = new Timer();
-	
-	/** the timer update freq. in ms */
-	private long m_lUpdateInterval = 30*1000;
-	
+
 	private BatteryBroadcastHandler m_oBatHandler = null;
 	private boolean m_bRegistered = false;
 	
@@ -52,8 +44,6 @@ public class EffectsService extends Service
 
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         
-        //        startTimer();
-
         // tried to fix bug http://code.google.com/p/android/issues/detail?id=3259
 		// by programmatically registering to the event
         if (!m_bRegistered)
@@ -72,13 +62,10 @@ public class EffectsService extends Service
         // read the Preferences upon start
     	loadPrefs();
     	
-    	// run the timer
-// timer's not needed    	startTimer();
-    	
         Log.i(getClass().getSimpleName(), "Received start id " + startId + ": " + intent);
         // We want this service to continue running until it is explicitly
         // stopped, so return sticky.
-        return 1; // Service.START_STICKY;
+        return Service.START_STICKY;
     }
     @Override
     /**
@@ -91,8 +78,6 @@ public class EffectsService extends Service
         
         // unregister the broadcastreceiver
         unregisterReceiver(m_oBatHandler);
-
-        stopTimer();
     }
 
     @Override
@@ -106,47 +91,11 @@ public class EffectsService extends Service
     private final IBinder mBinder = new LocalBinder();
 
     /**
-     * Check for location changes at each timer occurrence
-     */
-    private void updateEffects()
-    {
-		// Apply the effect for current state
-    	EffectsFassade.getInstance().doEffect(this);
-    	Preferences myPrefs = Preferences.getInstance(this);
-    }
-    
-    /**
-     * Start the timer when starting the service
-     */
-    private void startTimer()
-    {        
-    	timer.scheduleAtFixedRate(
-    			new TimerTask()
-    			{
-			        public void run()
-			        {
-			        	updateEffects();
-			        }
-			     }, 0, m_lUpdateInterval);
-			  Log.i(getClass().getSimpleName(), "Timer started!!! (timeout=" + m_lUpdateInterval + " ms)");
-    }
-
-    /**
-     * Stop the timer when stopping the service
-     */
-    private void stopTimer()
-    {
-    	if (timer != null) timer.cancel();
-		Log.i(getClass().getSimpleName(), "Timer stopped!!!");
-	}
-    
-    /**
      *  read the persisited preferences and set the sleep-effect when the service starts
      */
     private void loadPrefs()
     {
         Preferences myPrefs = Preferences.getInstance(this);
-        m_lUpdateInterval 	= myPrefs.getPollInterval() * 1000; // as timer is in ms
         myPrefs.applySleep();
 
     }
