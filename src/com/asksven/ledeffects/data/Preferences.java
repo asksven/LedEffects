@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.asksven.ledeffects.R;
 import com.asksven.ledeffects.manager.EffectsFassade;
 import com.asksven.ledeffects.manager.EffectsState;
 
@@ -55,12 +56,19 @@ public class Preferences
 	private int m_iEffectMail;
 	private int m_iEffectIM;
 	private int m_iEffectSleep;
-	
+
+	/** option to silence vibration at night */
 	private boolean m_bSilenceVibration 	= false;
-	private boolean m_bSilenceSound			= false;
+	/** timepspan for silencing vibration */
 	private TimeSpan m_myVibrationOffTime;
+
+	/** option to silence sound at night */
+	private boolean m_bSilenceSound			= false;
+	/** timepspan for silencing sound */
 	private TimeSpan m_mySoundOffTime;
 	
+	/** phone we run effects on @see SupportedPhones*/
+	private int m_iPhoneModel	= 0;
 	
 	/** Timer frequency in seconds*/
 	private int m_iPollInterval;
@@ -356,6 +364,27 @@ public class Preferences
 		return m_bSilenceSound;
 	}
 
+	public int getPhoneModel()
+	{
+		return m_iPhoneModel;
+	}
+
+	public void setPhoneModel(int iModel)
+	{
+		// if phone model changed make sure to cancel all effects
+		if ((m_iPhoneModel != iModel) && (m_iPhoneModel != 0))
+		{
+			m_iEffectRing 	= 0;
+			m_iEffectCharge = 0;
+			m_iEffectSMS	= 0;
+			m_iEffectMail	= 0;
+			m_iEffectIM 	= 0;
+			m_iEffectSleep 	= 0;
+		}	
+		
+		m_iPhoneModel = iModel;
+	}
+
 	
 	private Preferences(Activity myActivity)
 	{
@@ -435,6 +464,8 @@ public class Preferences
 
 		setVibrateOffTimespan(m_mySettings.getInt("vibrateOffFrom", 0), m_mySettings.getInt("vibrateOffTo", 0));
 		setSoundOffTimespan(m_mySettings.getInt("soundOffFrom", 0), m_mySettings.getInt("SoundOffTo", 0));
+		
+		setPhoneModel(m_mySettings.getInt("phoneModel", 0)); 
 	}
 	
 	public void save()
@@ -480,6 +511,8 @@ public class Preferences
 	    editor.putInt("vibrateOffTo", getVibrateOffTimespan().getToHours());
 	    editor.putInt("soundOffFrom", getSoundOffTimespan().getFromHours());
 	    editor.putInt("soundOffTo", getSoundOffTimespan().getToHours());
+	    
+	    editor.putInt("phoneModel", getPhoneModel());
 
 	    applySleep();
 	    
@@ -535,5 +568,25 @@ public class Preferences
 			default :
 				return new Effect(0, false, "", false, false, "");		
 		}
+	}
+	
+	/** returns the resource Id for enumerating effects (depends on phone model) */
+	public int getEffectEnumId()
+	{
+		switch (m_iPhoneModel)
+		{
+			case SupportedPhones.RAPH_DIAM :
+				return R.array.effects_raph_diam;
+			case SupportedPhones.TOPA :
+				return R.array.effects_topa;
+			case SupportedPhones.DESIRE_UNROOTED :
+				return R.array.effects_desire;
+			case SupportedPhones.GENERIC :
+				return R.array.effects_gen;
+	
+			default :
+				return R.array.effects_gen; //default
+		}
+			
 	}
 }
