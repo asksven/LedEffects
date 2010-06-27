@@ -158,37 +158,37 @@ public class PreferencesAct extends Activity
 
         Spinner mySpinRing = (Spinner) findViewById(R.id.SpinnerRing);
         ArrayAdapter myAdapterRing = ArrayAdapter.createFromResource(
-                this, R.array.effects, android.R.layout.simple_spinner_item);
+                this, m_myPrefs.getEffectEnumId(), android.R.layout.simple_spinner_item);
         myAdapterRing.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinRing.setAdapter(myAdapterRing);
 
         Spinner mySpinCharge = (Spinner) findViewById(R.id.SpinnerCharge);
         ArrayAdapter myAdapterCharge = ArrayAdapter.createFromResource(
-                this, R.array.effects, android.R.layout.simple_spinner_item);
+                this, m_myPrefs.getEffectEnumId(), android.R.layout.simple_spinner_item);
         myAdapterCharge.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinCharge.setAdapter(myAdapterCharge);
 
         Spinner mySpinSMS = (Spinner) findViewById(R.id.SpinnerSMS);
         ArrayAdapter myAdapterSMS = ArrayAdapter.createFromResource(
-                this, R.array.effects, android.R.layout.simple_spinner_item);
+                this, m_myPrefs.getEffectEnumId(), android.R.layout.simple_spinner_item);
         myAdapterSMS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinSMS.setAdapter(myAdapterSMS);
 
         Spinner mySpinMail = (Spinner) findViewById(R.id.SpinnerMail);
         ArrayAdapter myAdapterMail = ArrayAdapter.createFromResource(
-                this, R.array.effects, android.R.layout.simple_spinner_item);
+                this, m_myPrefs.getEffectEnumId(), android.R.layout.simple_spinner_item);
         myAdapterMail.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinMail.setAdapter(myAdapterMail);
 
         Spinner mySpinIM = (Spinner) findViewById(R.id.SpinnerIM);
         ArrayAdapter myAdapterIM = ArrayAdapter.createFromResource(
-                this, R.array.effects, android.R.layout.simple_spinner_item);
+                this, m_myPrefs.getEffectEnumId(), android.R.layout.simple_spinner_item);
         myAdapterIM.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinIM.setAdapter(myAdapterIM);
 
         Spinner mySpinSleep = (Spinner) findViewById(R.id.SpinnerSleep);
         ArrayAdapter myAdapterSleep = ArrayAdapter.createFromResource(
-                this, R.array.effects, android.R.layout.simple_spinner_item);
+                this, m_myPrefs.getEffectEnumId(), android.R.layout.simple_spinner_item);
         myAdapterSleep.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinSleep.setAdapter(myAdapterSleep);
         
@@ -272,8 +272,6 @@ public class PreferencesAct extends Activity
     private void readPreferences()
     {
 
-    	CheckBox myAutostart	= (CheckBox) findViewById(R.id.CheckBoxAutostart);
-
     	CheckBox myNotifyRing	= (CheckBox) findViewById(R.id.CheckBoxNotifyRing);
     	CheckBox myNotifyCharge	= (CheckBox) findViewById(R.id.CheckBoxNotifyCharge);
     	CheckBox myNotifySMS	= (CheckBox) findViewById(R.id.CheckBoxNotifySMS);
@@ -305,8 +303,6 @@ public class PreferencesAct extends Activity
     	Spinner mySpinnerSFrom 	= (Spinner) findViewById(R.id.SpinnerSoundOffFrom);
     	Spinner mySpinnerSTo 	= (Spinner) findViewById(R.id.SpinnerSoundOffTo);
 
-    	
-    	myAutostart.setChecked(m_myPrefs.getAutostart());
     	
         myNotifyRing.setChecked(m_myPrefs.getNotifyRing());
         myNotifyCharge.setChecked(m_myPrefs.getNotifyCharge());
@@ -351,9 +347,6 @@ public class PreferencesAct extends Activity
     /** persist changed preferences */
     private void savePreferences()
     {
-
-    	CheckBox myAutostart	= (CheckBox) findViewById(R.id.CheckBoxAutostart);
-
     	CheckBox myNotifyRing	= (CheckBox) findViewById(R.id.CheckBoxNotifyRing);
     	CheckBox myNotifyCharge	= (CheckBox) findViewById(R.id.CheckBoxNotifyCharge);
     	CheckBox myNotifySMS	= (CheckBox) findViewById(R.id.CheckBoxNotifySMS);
@@ -387,8 +380,6 @@ public class PreferencesAct extends Activity
     	Spinner mySpinnerSTo 	= (Spinner) findViewById(R.id.SpinnerSoundOffTo);
 
 
-    	m_myPrefs.setAutostart(myAutostart.isChecked());
-    	
     	m_myPrefs.setNotifyRing(myNotifyRing.isChecked());
     	m_myPrefs.setNotifyCharge(myNotifyCharge.isChecked());
     	m_myPrefs.setNotifySMS(myNotifySMS.isChecked());
@@ -423,7 +414,7 @@ public class PreferencesAct extends Activity
         
         m_myPrefs.setVibrateOffTimespan(mySpinnerVFrom.getSelectedItemPosition(), mySpinnerVTo.getSelectedItemPosition());
         m_myPrefs.setSoundOffTimespan(mySpinnerSFrom.getSelectedItemPosition(), mySpinnerSTo.getSelectedItemPosition());
-        
+                
     	m_myPrefs.save();	
     	m_myPrefs.applySleep();
     }
