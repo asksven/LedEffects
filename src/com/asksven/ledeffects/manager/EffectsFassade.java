@@ -45,9 +45,9 @@ public class EffectsFassade
 	/** apply the effect following the current state */
 	public void doEffect(Context ctx)
 	{
-		Preferences myPrefs = Preferences.getInstance(ctx);
+		final Preferences myPrefs = Preferences.getInstance(ctx);
     	Effect oEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
-		boolean bChanged = EffectManager.doEffect(oEffect.getEffect());
+		boolean bChanged = EffectManager.doEffect(myPrefs.getPhoneModel(), oEffect.getEffect());
 		Log.d(getClass().getSimpleName(), "Applying effect " + oEffect.getEffect());
 		if ((bChanged) && (oEffect.getEffect() != 0))
 		{
@@ -66,8 +66,7 @@ public class EffectsFassade
 		    			{
 					        public void run()
 					        {
-					        	
-					        	EffectManager.doEffect(0);
+					        	EffectManager.doEffect(myPrefs.getPhoneModel(), 0);
 					        	EffectsState.getInstance().setNotifyReadAll();
 					        }
 					     }, 5*1000);
@@ -117,7 +116,8 @@ public class EffectsFassade
 	/** plays a visual effect for a limited time */
 	public void playEffect(Context ctx, int iEffect, int iDuration)
 	{
-		EffectManager.doEffect(iEffect);
+		final Preferences myPrefs = Preferences.getInstance(ctx);
+		EffectManager.doEffect(myPrefs.getPhoneModel(), iEffect);
 
 		// create a timer to end the effect
     	Timer timer = new Timer();
@@ -128,7 +128,7 @@ public class EffectsFassade
 			        public void run()
 			        {
 			        	
-			        	EffectManager.doEffect(0);
+			        	EffectManager.doEffect(myPrefs.getPhoneModel(), 0);
 			        }
 			     }, 5*1000);
 	}
@@ -136,7 +136,8 @@ public class EffectsFassade
 	/** plays a visual effect together with vibration and sound for a limited time */
 	public void playEffect(Context ctx, int iEffect, int iDuration, boolean bVibrate, String strSound)
 	{
-		EffectManager.doEffect(iEffect);
+		final Preferences myPrefs = Preferences.getInstance(ctx);
+		EffectManager.doEffect(myPrefs.getPhoneModel(), iEffect);
 
 		// create a timer to end the effect
     	Timer timer = new Timer();
@@ -147,7 +148,7 @@ public class EffectsFassade
 			        public void run()
 			        {
 			        	
-			        	EffectManager.doEffect(0);
+			        	EffectManager.doEffect(myPrefs.getPhoneModel(), 0);
 			        }
 			     }, 5*1000);
 
@@ -193,7 +194,7 @@ public class EffectsFassade
         Preferences myPrefs = Preferences.getInstance(ctx);
         EffectsState.getInstance().setNotifyReadAll();
         Effect oEffect = myPrefs.getEffectForState(EffectsState.getInstance().getState());
-        EffectManager.doEffect(oEffect.getEffect());
+        EffectManager.doEffect(myPrefs.getPhoneModel(), oEffect.getEffect());
 
 	}
 	
