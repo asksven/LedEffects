@@ -67,10 +67,16 @@ public class BatteryBroadcastHandler extends BroadcastReceiver
             	myEffectMgr.setStateCharging(false);
 
             }
+            else if (status == BatteryManager.BATTERY_STATUS_FULL)
+            {
+            	Log.d(getClass().getSimpleName(), "Status is BATTERY_STATUS_FULL");
+                // status battery not charging
+            	myEffectMgr.setStateCharging(false);
+            }
             else
             {
                 // status unknown
-            	Log.d(getClass().getSimpleName(), "Status is BATTERY_STATUS_UNKNOWN");
+            	Log.d(getClass().getSimpleName(), "Status is unhandeled (" + status + ")");
             	myEffectMgr.setStateCharging(false);
             }
 		}
