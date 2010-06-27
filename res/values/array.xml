@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string-array name="effects">
+	<string-array name="effects_raph_diam">
         <item>None</item>
         <item>Ring</item>
         <item>Blink</item>
@@ -9,6 +9,38 @@
         <item>Rotate</item>
         <item>Vertical</item>
     </string-array>
+
+	<string-array name="effects_topa">
+        <item>None</item>
+        <item>Green</item>
+        <item>Amber</item>
+        <item>Green flashing (slow)</item>
+        <item>Green flashing (fast)</item>
+        <item>Amber flashing (fast)</item>
+    </string-array>
+
+	<string-array name="effects_desire">
+        <item>None</item>
+        <item>Blue</item>
+        <item>Amber</item>
+        <item>Green</item>
+        <item>pink</item>
+        <item>White</item>
+    </string-array>
+
+	<string-array name="effects_gen">
+        <item>None</item>
+    </string-array>
+    
+    
+    <string-array name="phones">
+        <item>raph/diam</item>
+        <item>topa</item>
+        <item>generic</item>
+        <item>Nexus one (rooted)</item>
+        <item>Desire (unrooted)</item>
+    </string-array>
+    
 	<string-array name="times">
         <item>00:00</item>
         <item>01:00</item>
