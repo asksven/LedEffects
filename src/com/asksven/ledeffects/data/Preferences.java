@@ -551,16 +551,44 @@ public class Preferences
 				return new Effect(m_iEffectCharge, false, "Charging battery", getNotifyCharge(), false, "");
 
 			case EffectsState.STATE_RINGING :
-				return new Effect(m_iEffectRing, false, "Incoming call", getNotifyRing(), getVibrateRing(), getSoundRing());
-
-			case EffectsState.NOTIFY_SMS :
-				return new Effect(m_iEffectSMS, true, "Incoming SMS", getNotifySMS(), getVibrateSMS(), getSoundSMS());
+				if (getPlaySoundMail())
+				{
+					return new Effect(m_iEffectRing, false, "Incoming call", getNotifyRing(), getVibrateRing(), getSoundRing());
+				}
+				else
+				{
+					return new Effect(m_iEffectRing, false, "Incoming call", getNotifyRing(), getVibrateRing(), "");
+				}
+				
+		case EffectsState.NOTIFY_SMS :
+				if (getPlaySoundSMS())
+				{
+					return new Effect(m_iEffectSMS, true, "Incoming SMS", getNotifySMS(), getVibrateSMS(), getSoundSMS());
+				}
+				else
+				{
+					return new Effect(m_iEffectSMS, true, "Incoming SMS", getNotifySMS(), getVibrateSMS(), "");
+				}
 
 			case EffectsState.NOTIFY_IM :
-				return new Effect(m_iEffectIM, true, "Incoming IM", getNotifyIM(), getVibrateIM(), getSoundIM());
+				if (getPlaySoundIM())
+				{
+					return new Effect(m_iEffectIM, true, "Incoming IM", getNotifyIM(), getVibrateIM(), getSoundIM());
+				}
+				else
+				{
+					return new Effect(m_iEffectIM, true, "Incoming IM", getNotifyIM(), getVibrateIM(), "");
+				}
 
 			case EffectsState.NOTIFY_MAIL :
-				return new Effect(m_iEffectMail, true, "Incoming mail", getNotifyMail(), getVibrateMail(), getSoundMail());
+				if (getPlaySoundMail())
+				{
+					return new Effect(m_iEffectMail, true, "Incoming mail", getNotifyMail(), getVibrateMail(), getSoundMail());
+				}
+				else
+				{
+					return new Effect(m_iEffectMail, true, "Incoming mail", getNotifyMail(), getVibrateMail(), "");
+				}
 				
 			case EffectsState.STATE_SLEEPING :
 				return new Effect(m_iEffectSleep, false, "Sleeping", false, false, "");
