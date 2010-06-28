@@ -108,7 +108,14 @@ public class PreferencesAct extends Activity
         	   Spinner mySpinner 	= (Spinner) findViewById(R.id.SpinnerRing);
         	   CheckBox myCheckVibrate	= (CheckBox) findViewById(R.id.CheckBoxVibrateRing);
         	   CheckBox myCheckSound	= (CheckBox) findViewById(R.id.CheckBoxSoundRing);
-        	   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), m_strUriRing);
+        	   if (myCheckSound.isChecked())
+        	   {
+        		   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), m_strUriRing);
+        	   }
+        	   else
+        	   {
+        		   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), "");
+        	   }
            }
         });
         Button btnTestCharge = (Button) findViewById(R.id.ButtonTestCharge);
@@ -124,7 +131,14 @@ public class PreferencesAct extends Activity
         	   Spinner mySpinner 	= (Spinner) findViewById(R.id.SpinnerSMS);
         	   CheckBox myCheckVibrate	= (CheckBox) findViewById(R.id.CheckBoxVibrateSMS);
         	   CheckBox myCheckSound	= (CheckBox) findViewById(R.id.CheckBoxSoundSMS);
-        	   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), m_strUriSMS);
+        	   if (myCheckSound.isChecked())
+        	   {
+        		   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), m_strUriSMS);
+        	   }
+        	   else
+        	   {
+        		   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), "");
+        	   }
            }
         });
         
@@ -134,7 +148,14 @@ public class PreferencesAct extends Activity
         	   Spinner mySpinner 	= (Spinner) findViewById(R.id.SpinnerMail);
         	   CheckBox myCheckVibrate	= (CheckBox) findViewById(R.id.CheckBoxVibrateMail);
         	   CheckBox myCheckSound	= (CheckBox) findViewById(R.id.CheckBoxSoundMail);
-        	   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), m_strUriMail);
+        	   if (myCheckSound.isChecked())
+        	   {
+        		   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), m_strUriMail);
+        	   }
+        	   else
+        	   {
+        		   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), "");
+        	   }
            }
         });
         
@@ -144,7 +165,14 @@ public class PreferencesAct extends Activity
         	   Spinner mySpinner 	= (Spinner) findViewById(R.id.SpinnerIM);
         	   CheckBox myCheckVibrate	= (CheckBox) findViewById(R.id.CheckBoxVibrateIM);
         	   CheckBox myCheckSound	= (CheckBox) findViewById(R.id.CheckBoxSoundIM);
-        	   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), m_strUriIM);
+        	   if (myCheckSound.isChecked())
+        	   {
+        		   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), m_strUriIM);
+        	   }
+        	   else
+        	   {
+        		   EffectsFassade.getInstance().playEffect(PreferencesAct.this, mySpinner.getSelectedItemPosition(), PLAY_DURATION, myCheckVibrate.isChecked(), "");
+        	   }
            }
         });
        
