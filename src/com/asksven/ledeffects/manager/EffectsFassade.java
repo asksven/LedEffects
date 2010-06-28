@@ -31,12 +31,16 @@ public class EffectsFassade
 	/** the singleton instance */
 	private static EffectsFassade m_oFassade = null;
 
+	/** we handle only one player */
+	private static MediaPlayer m_myPlayer = null;
+
 	/** returns the singleton's instance */
 	public static EffectsFassade getInstance()
 	{
 		if (m_oFassade == null)
 		{
 			m_oFassade = new EffectsFassade();
+			m_myPlayer = new MediaPlayer();
 		}
 		
 		return m_oFassade;
@@ -94,13 +98,16 @@ public class EffectsFassade
 				// check if sound is allowed at current time
 				if (!myPrefs.getSoundOff() || (!myPrefs.getSoundOffTimespan().isBetween(myNow)))
 				{
-					MediaPlayer myPlayer = new MediaPlayer();
 					try
 					{
 						Uri myNewUri = Uri.parse(oEffect.getSound());
-						myPlayer.setDataSource(ctx, myNewUri);
-						myPlayer.prepare();
-						myPlayer.start();
+						// first stop whatever may be still running
+						m_myPlayer.stop();
+						
+						// now 
+						m_myPlayer.setDataSource(ctx, myNewUri);
+						m_myPlayer.prepare();
+						m_myPlayer.start();
 					}
 					catch (Exception e)
 					{
@@ -108,6 +115,11 @@ public class EffectsFassade
 					}
 				}
 				
+			}
+			else
+			{
+				// stop whatever may have been playing
+				m_myPlayer.stop();
 			}
 		}
 		
@@ -163,13 +175,24 @@ public class EffectsFassade
 		// play sound ?
 		if (!strSound.equals(""))
 		{
-			MediaPlayer myPlayer = new MediaPlayer();
 			try
 			{
 				Uri myNewUri = Uri.parse(strSound);
-				myPlayer.setDataSource(ctx, myNewUri);
-				myPlayer.prepare();
-				myPlayer.start();
+				m_myPlayer.stop();
+				m_myPlayer.setDataSource(ctx, myNewUri);
+				m_myPlayer.prepare();
+				m_myPlayer.start();
+				
+				// make sure the player stops
+				timer.schedule(
+    			new TimerTask()
+    			{
+			        public void run()
+			        {
+			        	
+			        	m_myPlayer.stop();
+			        }
+			     }, 5*1000);				
 			}
 			catch (Exception e)
 			{
